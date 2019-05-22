@@ -1,3 +1,9 @@
+drop table if exists for_trading;
+drop table if exists daily_info;
+drop table if exists trading_record;
+drop table if exists own;
+drop table if exists stock;
+drop table if exists company_account;
 drop table if exists individual_account;
 
 /*==============================================================*/
@@ -15,7 +21,6 @@ create table individual_account
    e_mail               varchar(30),
    primary key (ID)
 );
-drop table if exists company_account;
 
 /*==============================================================*/
 /* Table: company_account                                       */
@@ -28,7 +33,6 @@ create table company_account
    country              varchar(20) not null,
    primary key (ID)
 );
-drop table if exists stock;
 
 /*==============================================================*/
 /* Table: stock                                                 */
@@ -47,7 +51,6 @@ create table stock
 
 alter table stock add constraint FK_Reference_6 foreign key (ID)
       references company_account (ID) on delete restrict on update restrict;
-drop table if exists own;
 
 /*==============================================================*/
 /* Table: own                                                   */
@@ -65,7 +68,6 @@ alter table own add constraint FK_Reference_2 foreign key (acc_ID)
 
 alter table own add constraint FK_Reference_3 foreign key (sto_ID)
       references stock (ID) on delete restrict on update restrict;
-drop table if exists trading_record;
 
 /*==============================================================*/
 /* Table: trading_record                                        */
@@ -86,7 +88,6 @@ alter table trading_record add constraint FK_Reference_4 foreign key (acc_ID)
 
 alter table trading_record add constraint FK_Reference_5 foreign key (sto_ID)
       references stock (ID) on delete restrict on update restrict;
-drop table if exists daily_info;
 
 /*==============================================================*/
 /* Table: daily_info                                            */
@@ -107,7 +108,6 @@ create table daily_info
 
 alter table daily_info add constraint FK_Reference_1 foreign key (ID)
       references stock (ID) on delete restrict on update restrict;
-drop table if exists for_trading;
 
 /*==============================================================*/
 /* Table: for_trading                                           */
