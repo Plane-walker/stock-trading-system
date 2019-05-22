@@ -2,14 +2,16 @@ package account;
 
 import database.dbconnect;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class account {
 	String ID=null;
 	String name=null;
-	public void register(String ID,String name,String pwHash,String gender,String country) {
+	public void register(String ID,String name,String pw,String gender,String country) {
+		String pwHash=getmd5(pw);
 		dbconnect dc=null;
 		PreparedStatement psta=null;
 		ResultSet rs = null;
@@ -38,7 +40,8 @@ public class account {
 			e.printStackTrace();
 		}
 	}
-	public void login(String ID,String pwHash) {
+	public void login(String ID,String pw) {
+		String pwHash=getmd5(pw);
 		dbconnect dc=null;
 		PreparedStatement psta=null;
 		ResultSet rs = null;
@@ -61,5 +64,26 @@ public class account {
 	}
 	public String getID() {
 		return ID;
+	}
+	public String getname() {
+		return name;
+	}
+	String getmd5(String input) {
+		String output="";
+		try {
+			MessageDigest md5=MessageDigest.getInstance("MD5");
+			md5.update(input.getBytes());
+			byte [] encryContext = md5.digest();
+			int i;
+            for (int offset = 0; offset < encryContext.length; offset++) {
+                i = encryContext[offset];  
+                if (i < 0) i += 256;  
+                if (i < 16) output+="0";  
+                output+=Integer.toHexString(i);  
+           } 
+		} catch (NoSuchAlgorithmException e1) {
+			e1.printStackTrace();
+		}
+		return output;
 	}
 }

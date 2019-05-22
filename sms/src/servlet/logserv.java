@@ -6,6 +6,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import account.account;
 
 /**
@@ -40,12 +42,17 @@ public class logserv extends HttpServlet {
         acc.login(userID, password);
         if(acc.getID()==null) {
         request.setAttribute("error", "用户名或者密码错误");
-        request.setAttribute("username", userID);
+        request.setAttribute("userID", userID);
         request.setAttribute("password", password);
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+        request.getRequestDispatcher("login").forward(request, response);
         }
-        else
-        	request.getRequestDispatcher("WEB-INF/main.jsp").forward(request, response);
+        else {
+        	HttpServletRequest req = (HttpServletRequest)request;
+        	HttpSession session = req.getSession();
+        	session.setAttribute("ID", acc.getID());
+        	session.setAttribute("name", acc.getname());
+        	request.getRequestDispatcher("main").forward(request, response);
+        }
 	}
 
 }

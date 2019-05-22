@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE urlrewrite
+    PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
+    "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+<urlrewrite>
+    <rule>
+        <from>^/login$</from>  
+        <to type="forward">/login.jsp</to>
+    </rule>
+    <rule>
+        <from>^/register$</from>  
+        <to type="forward">/register.jsp</to> 
+    </rule>
+    <rule>
+        <from>^/main$</from>  
+        <to type="forward">/main.jsp</to> 
+    </rule>
+</urlrewrite>

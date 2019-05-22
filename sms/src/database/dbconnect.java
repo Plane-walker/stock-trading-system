@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 
 public class dbconnect {
 	static String DBDRIVER="com.mysql.cj.jdbc.Driver";
-	static String DBURL="";
+	static String DBURL=""
 	static String DBUSER="";
 	static String DBPASS="";
 	Connection conn=null;

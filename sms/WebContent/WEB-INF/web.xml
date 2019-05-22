@@ -2,13 +2,44 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
   <display-name>sms</display-name>
   <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>main.html</welcome-file>
+    <welcome-file>main.htm</welcome-file>
+    <welcome-file>main.jsp</welcome-file>
+    <welcome-file>main.html</welcome-file>
+    <welcome-file>main.htm</welcome-file>
+    <welcome-file>main.jsp</welcome-file>
   </welcome-file-list>
+  <filter>
+         <filter-name>loginfiter</filter-name>
+         <filter-class>filter.loginfilter</filter-class>
+     </filter>
+     <filter-mapping>
+         <filter-name>loginfiter</filter-name>
+         <url-pattern>/main.jsp</url-pattern>
+     </filter-mapping>
+	<filter>
+        <filter-name>UrlRewriteFilter</filter-name>
+        <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+        <init-param>
+            <param-name>confReloadCheckInterval</param-name>
+            <param-value>60</param-value>
+        </init-param>
+        <init-param>
+            <param-name>confPath</param-name>
+             <param-value>/WEB-INF/urlrewrite.xml</param-value>
+        </init-param>
+        <init-param>
+            <param-name>logLevel</param-name>
+            <param-value>DEBUG</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>UrlRewriteFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
   <servlet>
     <servlet-name>logServlet</servlet-name>
     <servlet-class>servlet.logserv</servlet-class>
@@ -23,6 +54,6 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>registerServlet</servlet-name>
-    <url-pattern>/register</url-pattern>
+    <url-pattern>/reg</url-pattern>
   </servlet-mapping>
 </web-app>

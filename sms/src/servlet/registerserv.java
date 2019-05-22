@@ -43,12 +43,17 @@ public class registerserv extends HttpServlet {
         acc.register(userID, username,password,gender,country);
         if(acc.getID()==null) {
         request.setAttribute("error", "ID已存在");
-        request.setAttribute("username", userID);
+        request.setAttribute("userID", userID);
+        request.setAttribute("username", username);
         request.setAttribute("password", password);
-        request.getRequestDispatcher("register.jsp").forward(request, response);
+        request.setAttribute("gender", gender);
+        request.setAttribute("country", country);
+        request.getRequestDispatcher("register").forward(request, response);
         }
-        else
-        	request.getRequestDispatcher("WEB-INF/main.jsp").forward(request, response);
+        else {
+        	request.setAttribute("username", acc.getname());
+        	request.getRequestDispatcher("main").forward(request, response);
+        }
 	}
 
 }

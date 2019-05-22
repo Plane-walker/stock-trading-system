@@ -7,7 +7,7 @@
 <title>股票交易系统</title>
 </head>
 <body>
-<label>${username},你好</label>
+<label><% out.print((String)session.getAttribute("name")+" 你好");%></label>
 <form action="search" method="post">
 <input type="text" name="searchstock" value="${searchstock}" autocomplete="off" placeholder="输入股票名称">
 <input type="submit" value="搜索">
