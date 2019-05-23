@@ -13,10 +13,6 @@
          <filter-name>loginfiter</filter-name>
          <filter-class>filter.loginfilter</filter-class>
      </filter>
-     <filter-mapping>
-         <filter-name>loginfiter</filter-name>
-         <url-pattern>/main.jsp</url-pattern>
-     </filter-mapping>
 	<filter>
         <filter-name>UrlRewriteFilter</filter-name>
         <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
@@ -33,7 +29,10 @@
             <param-value>DEBUG</param-value>
         </init-param>
     </filter>
-
+	<filter-mapping>
+         <filter-name>loginfiter</filter-name>
+         <url-pattern>/main.jsp</url-pattern>
+     </filter-mapping>
     <filter-mapping>
         <filter-name>UrlRewriteFilter</filter-name>
         <url-pattern>/*</url-pattern>
