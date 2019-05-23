@@ -9,18 +9,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import account.account;
+import stock.stock;
 
 /**
- * Servlet implementation class logserv
+ * Servlet implementation class refreshserv
  */
-@WebServlet("/logserv")
-public class logserv extends HttpServlet {
+@WebServlet("/refreshserv")
+public class refreshserv extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public logserv() {
+    public refreshserv() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,23 +37,11 @@ public class logserv extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userID=request.getParameter("userID");
-        String password=request.getParameter("password");
-        account acc=new account();
-        acc.login(userID, password);
-        if(acc.getID()==null) {
-        request.setAttribute("error", "用户名或者密码错误");
-        request.setAttribute("userID", userID);
-        request.setAttribute("password", password);
-        request.getRequestDispatcher("login").forward(request, response);
-        }
-        else {
-        	HttpServletRequest req = (HttpServletRequest)request;
-        	HttpSession session = req.getSession();
-        	session.setAttribute("ID", acc.getID());
-        	session.setAttribute("name", acc.getname());
-        	response.sendRedirect("/sms/main");
-        }
+		stock st=new stock();
+		st.gettop();
+		response.setContentType("text/html");
+        response.getWriter().print(st.getID()+" "+st.getname());
+		
 	}
 
 }

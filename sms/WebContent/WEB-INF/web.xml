@@ -40,6 +40,10 @@
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
+    <servlet>
+    	<servlet-name>refreshServlet</servlet-name>
+    	<servlet-class>servlet.refreshserv</servlet-class>
+    </servlet>
   <servlet>
     <servlet-name>logServlet</servlet-name>
     <servlet-class>servlet.logserv</servlet-class>
@@ -48,6 +52,10 @@
     <servlet-name>registerServlet</servlet-name>
     <servlet-class>servlet.registerserv</servlet-class>
   </servlet>
+  <servlet-mapping>
+    <servlet-name>refreshServlet</servlet-name>
+    <url-pattern>/refresh</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>logServlet</servlet-name>
     <url-pattern>/log</url-pattern>

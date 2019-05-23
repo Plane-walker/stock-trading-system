@@ -6,6 +6,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import account.account;
 
 /**
@@ -51,8 +53,11 @@ public class registerserv extends HttpServlet {
         request.getRequestDispatcher("register").forward(request, response);
         }
         else {
-        	request.setAttribute("username", acc.getname());
-        	request.getRequestDispatcher("main").forward(request, response);
+        	HttpServletRequest req = (HttpServletRequest)request;
+        	HttpSession session = req.getSession();
+        	session.setAttribute("ID", acc.getID());
+        	session.setAttribute("name", acc.getname());
+        	response.sendRedirect("/sms/main");
         }
 	}
 
