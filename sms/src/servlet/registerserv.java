@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import account.account;
+import account.company_account;
 import account.individual_account;
 
 /**
@@ -37,9 +38,14 @@ public class registerserv extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        account acc=new individual_account();
+		account acc;
+		if(request.getParameter("acc_type").equals("individul"))
+			acc=new individual_account();
+		else
+			acc=new company_account();
         String info=acc.register(request);
         if(info!=null) {
+        request.setCharacterEncoding("UTF-8");
         request.setAttribute("error", info);
         request.setAttribute("userID", request.getParameter("userID"));
         request.setAttribute("username", request.getParameter("username"));

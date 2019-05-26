@@ -28,6 +28,7 @@ function refresh(){
 		   html+="<td>"+dates[i].name+"</td>";
 		   html+="<td>"+dates[i].now_price+"</td>";
 		   html+="<td>"+dates[i].upsanddowns+"</td>";
+		   html+="<td><form action='trade' methon='get'><input type='hidden' name='stockID' value='"+dates[i].ID+"'><input type='submit' value='交易'></input></form></td>";
 		   html+="</tr>";
 	   }
 		   $("#stocktable").html(html);

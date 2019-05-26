@@ -31,8 +31,9 @@ public class tradeserv extends HttpServlet {
 		st.getbyID(request.getParameter("stockID"));
 		request.setAttribute("stockID", st.getID());
 		request.setAttribute("stockname", st.getname());
-		request.setAttribute("stockprice", st.getnow_price());
-		request.getRequestDispatcher("WEB-INF/sresult.jsp").forward(request, response);
+		request.setAttribute("now_price", st.getnow_price());
+		request.setAttribute("upsanddowns", st.getupsanddowns());
+		request.getRequestDispatcher("/trading").forward(request, response);
 	}
 
 	/**

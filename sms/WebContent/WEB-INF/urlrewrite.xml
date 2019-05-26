@@ -15,4 +15,8 @@
         <from>^/main$</from>  
         <to type="forward">/main.jsp</to> 
     </rule>
+    <rule>
+        <from>^/trading$</from>  
+        <to type="forward">trading.jsp</to> 
+    </rule>
 </urlrewrite>

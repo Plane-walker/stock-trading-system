@@ -20,7 +20,7 @@ public class individual_account extends account{
 			error="用户ID不能为空！";
 		else if (username == null || username.trim().equals("")) 
 			error="用户名不能为空！";
-		else if (!request.getParameter("password").matches("^(?!.*[\\u4e00-\\u9fa5])(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{5,18}$"))
+		else if (!request.getParameter("password").matches("[^\\u3400-\\u9FFF]{5,18}"))
 				error="密码必须为5-18位，且必须同时包含大小写字母和数字！";
 		else if (!request.getParameter("repassword").equals(request.getParameter("password"))) 
 				error="两次密码不一致！";
@@ -37,16 +37,15 @@ public class individual_account extends account{
 			dc=new dbconnect();
 			psta=dc.getconn().prepareStatement(
 					"select ID from individual_account"
-					+ " where ID=? and pwHash=?");
-			psta.setString(1, ID);
-			psta.setString(2, pwHash);
+					+ " where ID=?");
+			psta.setString(1, userID);
 			rs=dc.query(psta);
 			if(!rs.next()) {
 			psta=dc.getconn().prepareStatement(
 					"insert into individual_account(ID,name,pwHash,gender,asset,country)"
 					+ " value(?,?,?,?,20000,?) ");
-			psta.setString(1, ID);
-			psta.setString(2, name);
+			psta.setString(1, userID);
+			psta.setString(2, username);
 			psta.setString(3, pwHash);
 			psta.setString(4, gender);
 			psta.setString(5, country);

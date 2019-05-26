@@ -31,8 +31,8 @@
     </filter>
 	<filter-mapping>
          <filter-name>loginfiter</filter-name>
-         <url-pattern>/WEB-INF/trade</url-pattern>
-         <url-pattern>/WEB-INF/trade.jsp</url-pattern>
+         <url-pattern>/trading</url-pattern>
+         <url-pattern>/trading.jsp</url-pattern>
          <url-pattern>/main</url-pattern>
          <url-pattern>/main.jsp</url-pattern>
      </filter-mapping>
@@ -72,6 +72,6 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>tradeServlet</servlet-name>
-    <url-pattern>/WEB-INF/trade</url-pattern>
+    <url-pattern>/trade</url-pattern>
   </servlet-mapping>
 </web-app>

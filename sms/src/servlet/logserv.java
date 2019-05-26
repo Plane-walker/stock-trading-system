@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import account.account;
+import account.company_account;
 import account.individual_account;
 
 /**
@@ -37,7 +38,11 @@ public class logserv extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        account acc=new individual_account();
+		account acc;
+		if(request.getAttribute("acc_type")=="individual")
+			acc=new individual_account();
+		else
+			acc=new company_account();
         String info=acc.login(request);
         if(info!=null) {
         request.setAttribute("error", info);
