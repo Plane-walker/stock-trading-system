@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import account.account;
+import account.individual_account;
 
 /**
  * Servlet implementation class registerserv
@@ -36,20 +37,14 @@ public class registerserv extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userID=request.getParameter("userID");
-		String username=request.getParameter("username");
-        String password=request.getParameter("password");
-        String gender=request.getParameter("gender");
-        String country=request.getParameter("country");
-        account acc=new account();
-        acc.register(userID, username,password,gender,country);
-        if(acc.getID()==null) {
-        request.setAttribute("error", "ID已存在");
-        request.setAttribute("userID", userID);
-        request.setAttribute("username", username);
-        request.setAttribute("password", password);
-        request.setAttribute("gender", gender);
-        request.setAttribute("country", country);
+        account acc=new individual_account();
+        String info=acc.register(request);
+        if(info!=null) {
+        request.setAttribute("error", info);
+        request.setAttribute("userID", request.getParameter("userID"));
+        request.setAttribute("username", request.getParameter("username"));
+        request.setAttribute("gender", request.getParameter("gender"));
+        request.setAttribute("country", request.getParameter("country"));
         request.getRequestDispatcher("register").forward(request, response);
         }
         else {

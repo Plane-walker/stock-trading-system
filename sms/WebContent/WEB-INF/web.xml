@@ -31,6 +31,9 @@
     </filter>
 	<filter-mapping>
          <filter-name>loginfiter</filter-name>
+         <url-pattern>/WEB-INF/trade</url-pattern>
+         <url-pattern>/WEB-INF/trade.jsp</url-pattern>
+         <url-pattern>/main</url-pattern>
          <url-pattern>/main.jsp</url-pattern>
      </filter-mapping>
     <filter-mapping>
@@ -51,6 +54,10 @@
     <servlet-name>registerServlet</servlet-name>
     <servlet-class>servlet.registerserv</servlet-class>
   </servlet>
+  <servlet>
+    	<servlet-name>tradeServlet</servlet-name>
+    	<servlet-class>servlet.tradeserv</servlet-class>
+    </servlet>
   <servlet-mapping>
     <servlet-name>refreshServlet</servlet-name>
     <url-pattern>/refresh</url-pattern>
@@ -62,5 +69,9 @@
   <servlet-mapping>
     <servlet-name>registerServlet</servlet-name>
     <url-pattern>/reg</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>tradeServlet</servlet-name>
+    <url-pattern>/WEB-INF/trade</url-pattern>
   </servlet-mapping>
 </web-app>

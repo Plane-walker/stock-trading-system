@@ -15,5 +15,12 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-8.0.15.jar"/>
+	<classpathentry kind="lib" path="lib/commons-beanutils.jar"/>
+	<classpathentry kind="lib" path="lib/commons-collections-3.0.jar"/>
+	<classpathentry kind="lib" path="lib/commons-lang-2.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="lib/ezmorph-1.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/json-lib-1.1-jdk13.jar"/>
+	<classpathentry kind="lib" path="lib/xom-1.0d10.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

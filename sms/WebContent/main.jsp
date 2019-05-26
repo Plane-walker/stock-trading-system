@@ -10,37 +10,54 @@
 <body>
 
 <script>
+var s_ID;
+function refresh(){
+	  var url = "refresh";
+	  var data = {"s_ID":s_ID,"size":"10"};
+	  $.ajax({
+	   type :"post",
+	   dataType: "json",
+	   url : url,
+	   data : data,
+	   timeout:1000,
+	   success:function(dates){
+		   var html="";
+		   for(var i=0;i<dates.length;i++){
+		   html+="<tr>";
+		   html+="<td>"+dates[i].ID+"</td>";
+		   html+="<td>"+dates[i].name+"</td>";
+		   html+="<td>"+dates[i].now_price+"</td>";
+		   html+="<td>"+dates[i].upsanddowns+"</td>";
+		   html+="</tr>";
+	   }
+		   $("#stocktable").html(html);
+	   },
+	   error:function() {
+	       }
+	  });
+	  };
+function searchID(){
+	s_ID=$("#stockID").val();
+	refresh();
+};
  $(function(){
- setInterval(refresh,1000);
- function refresh(){
-  var url = "refresh";
-  var data = {};
-  $.ajax({
-   type :"post",
-   url : url,
-   data : data,
-   timeout:1000,
-   success:function(dates){
-	   var arr=dates.split(" ");
-	   $("#stockID").html(arr[0]);
-	   $("#stockname").html(arr[1]);
-   },
-   error:function() {
-       }
-  });
-  };
+	 refresh();
+ 	 setInterval(refresh,1000);
 })
 </script>
 <label><% out.print((String)session.getAttribute("name")+" 你好");%></label>
-<form action="search" method="post">
-<input type="text" name="searchstock" value="${searchstock}" autocomplete="off" placeholder="输入股票名称">
-<input type="submit" value="搜索">
+<input type="text" ID="stockID" value="${stockID}" autocomplete="off" placeholder="输入股票名称">
+<input type="submit" value="搜索" onclick="return searchID()">
 <table>
+<thead>
 <tr>
-<td><label>热门股票</label></td>
+<th>股票ID</th>
+<th>股票名称</th>
+<th>当前价格</th>
+<th>涨跌幅</th>
 </tr>
-<tr><td><label ID="stockID">${stockID}</label></td><td><label ID="stockname">${stockname}</label></td></tr>
+</thead>
+<tbody id="stocktable"></tbody>
 </table>
-</form>
 </body>
 </html>

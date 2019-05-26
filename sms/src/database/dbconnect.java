@@ -10,7 +10,7 @@ public class dbconnect {
 	static String DBURL="";
 	static String DBUSER="";
 	static String DBPASS="";
-	Connection conn=null;
+	static Connection conn=null;
 	
 	public dbconnect() {
 		try{
