@@ -12,7 +12,8 @@ public class company_account extends account{
 	@Override
 	public String register(HttpServletRequest request) {
 		String error=null;
-		String ID=request.getParameter("userID");
+		HttpSession session = req.getSession();
+		String ID=session.getAttribute("ID");
 		String name=request.getParameter("username");
         String country=request.getParameter("country");
 		String pwHash=getmd5(request.getParameter("password"));
@@ -57,5 +58,46 @@ public class company_account extends account{
 			}
 		return error;
 	}
-	
+	public String publish(HttpServletRequest request)
+	{
+		String error=null;
+		String ID=request.getParameter("userID");
+		String name=request.getParameter("stockname");
+		Int issue_circulation=getParameter("circulation");
+		Double issue_price=getParameter("stockprice");
+		Int remain=getParameter("stocknum");
+			dbconnect dc=null;
+			PreparedStatement psta=null;
+			ResultSet rs = null;
+			try{
+				dc=new dbconnect();
+				psta=dc.getconn().prepareStatement(
+						"select ID from company_account"
+						+ " where ID=? and name=?");
+				psta.setString(1, ID);
+				psta.setString(2, name);
+				rs=dc.query(psta);
+				if(!rs.next()) {
+				psta=dc.getconn().prepareStatement(
+						"insert into company_account(ID,name,issue_time,issue_circulation,issue_price,remain)"
+						+ " value(?,?,now(),?,?,?) ");
+				psta.setString(1, ID);
+				psta.setString(2, name);
+				psta.setString(3, issue_time);
+				psta.setString(4, issue_circulation);
+				psta.setString(5, issue_price);
+				psta.setString(6, remain);
+				dc.add(psta);
+				this.ID=ID;
+				this.name=name;
+				}
+				else {
+					error="请勿重复发布股票！";
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		return error;
+		
+	}
 }
