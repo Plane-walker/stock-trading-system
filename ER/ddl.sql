@@ -145,7 +145,7 @@ DELIMITER !!
 create procedure sell(i_ID varchar(10),stock_ID varchar(10),sell_num int,offer_price double)
 begin
 declare now_num int;
-select num into now_num
+select number into now_num
 from own
 where acc_ID=i_ID and sto_ID=stock_ID;
 if now_num>sell_num
@@ -153,7 +153,7 @@ then
 begin
 select now_num-sell_num into now_num;
 update own
-set num=now_num
+set number=now_num
 where acc_ID=i_ID and sto_ID=stock_ID;
 end;
 else

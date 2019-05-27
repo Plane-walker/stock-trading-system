@@ -17,13 +17,13 @@ public class company_account extends account{
         String country=request.getParameter("country");
 		String pwHash=getmd5(request.getParameter("password"));
 		if(ID == null || ID.trim().equals(""))
-			error="鐢ㄦ埛ID涓嶈兘涓虹┖锛�";
+			error="用户ID不能为空";
 		else if (name == null || name.trim().equals("")) 
-			error="鐢ㄦ埛鍚嶄笉鑳戒负绌猴紒";
+			error="用户名不能为空！";
 		else if (!request.getParameter("password").matches("[^\\u3400-\\u9FFF]{5,18}"))
-				error="瀵嗙爜蹇呴』涓�5-18浣嶏紝涓斿繀椤诲悓鏃跺寘鍚ぇ灏忓啓瀛楁瘝鍜屾暟瀛楋紒";
+				error="密码必须为5-18位，且必须同时包含大小写字母和数字！";
 		else if (!request.getParameter("repassword").equals(request.getParameter("password"))) 
-				error="涓ゆ瀵嗙爜涓嶄竴鑷达紒";
+				error="两次密码不一致！";
 		else {
 			dbconnect dc=null;
 			PreparedStatement psta=null;
@@ -48,7 +48,7 @@ public class company_account extends account{
 				name=username;
 				}
 				else {
-					error="鐢ㄦ埛鍚嶅凡瀛樺湪锛�";
+					error="用户名已存在！";
 				}
 			}catch(Exception e) {
 				e.printStackTrace();
@@ -78,7 +78,7 @@ public class company_account extends account{
 				this.name=rs.getString("name");
 			}
 			else
-				error="鐢ㄦ埛鍚嶆垨瀵嗙爜閿欒";
+				error="用户名或密码错误";
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -89,9 +89,9 @@ public class company_account extends account{
 		String error=null;
 		String ID=request.getParameter("userID");
 		String name=request.getParameter("stockname");
-		Int issue_circulation=getParameter("circulation");
-		Double issue_price=getParameter("stockprice");
-		Int remain=getParameter("stocknum");
+		int issue_circulation=Integer.valueOf(request.getParameter("circulation"));
+		double issue_price=Double.valueOf(request.getParameter("stockprice"));
+		int remain=Integer.valueOf(request.getParameter("stocknum"));
 			dbconnect dc=null;
 			PreparedStatement psta=null;
 			ResultSet rs = null;
@@ -109,10 +109,9 @@ public class company_account extends account{
 						+ " value(?,?,now(),?,?,?) ");
 				psta.setString(1, ID);
 				psta.setString(2, name);
-				psta.setString(3, issue_time);
-				psta.setString(4, issue_circulation);
-				psta.setString(5, issue_price);
-				psta.setString(6, remain);
+				psta.setInt(3, issue_circulation);
+				psta.setDouble(4, issue_price);
+				psta.setInt(5, remain);
 				dc.add(psta);
 				this.ID=ID;
 				this.name=name;
