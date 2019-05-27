@@ -39,21 +39,22 @@ public class logserv extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		account acc;
-		if(request.getAttribute("acc_type")=="individual")
+		if(request.getParameter("acc_type").equals("individual"))
 			acc=new individual_account();
 		else
 			acc=new company_account();
         String info=acc.login(request);
+        System.out.println(request.getParameter("acc_type"));
         if(info!=null) {
         request.setAttribute("error", info);
         request.setAttribute("userID", request.getParameter("userID"));
         request.getRequestDispatcher("login").forward(request, response);
         }
         else {
-        	HttpServletRequest req = (HttpServletRequest)request;
-        	HttpSession session = req.getSession();
+        	HttpSession session = request.getSession();
         	session.setAttribute("ID", acc.getID());
         	session.setAttribute("name", acc.getname());
+        	session.setAttribute("acc_type", request.getAttribute("acc_type"));
         	response.sendRedirect("/sms/main");
         }
 	}

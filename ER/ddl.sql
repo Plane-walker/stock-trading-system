@@ -76,11 +76,11 @@ create table trading_record
 (
    acc_ID               varchar(10) not null,
    sto_ID               varchar(10) not null,
-   date                 date not null,
+   datetime                 datetime not null,
    transcation          boolean not null,
    price                double not null,
    number               int not null,
-   primary key (acc_ID, sto_ID, date)
+   primary key (acc_ID, sto_ID, datetime)
 );
 
 alter table trading_record add constraint FK_Reference_4 foreign key (acc_ID)
@@ -116,11 +116,11 @@ create table for_trading
 (
    sto_ID               varchar(10) not null,
    acc_ID               varchar(10) not null,
-   date                 date not null,
+   datetime                 datetime not null,
    transcation          varchar(4) not null,
    price                double,
    number               int,
-   primary key (sto_ID, acc_ID, date)
+   primary key (sto_ID, acc_ID, datetime)
 );
 
 alter table for_trading add constraint FK_Reference_7 foreign key (sto_ID)
@@ -128,3 +128,43 @@ alter table for_trading add constraint FK_Reference_7 foreign key (sto_ID)
 
 alter table for_trading add constraint FK_Reference_8 foreign key (acc_ID)
       references individual_account (ID) on delete restrict on update restrict;
+drop procedure if exists purchase;
+DELIMITER !!
+create procedure purchase(new_asset double,i_ID varchar(10),stock_ID varchar(10),num int,offer_price double)
+begin
+update individual_account
+set asset=new_asset
+where ID=i_ID;
+insert into for_trading(sto_ID,acc_ID,datetime,transcation,price,number)
+value(stock_ID,i_ID,now(),"buy",offer_price,num);
+end
+!!
+DELIMITER ;
+drop procedure if exists sell;
+DELIMITER !!
+create procedure sell(i_ID varchar(10),stock_ID varchar(10),sell_num int,offer_price double)
+begin
+declare now_num int;
+select num into now_num
+from own
+where acc_ID=i_ID and sto_ID=stock_ID;
+if now_num>sell_num
+then
+begin
+select now_num-sell_num into now_num;
+update own
+set num=now_num
+where acc_ID=i_ID and sto_ID=stock_ID;
+end;
+else
+begin
+delete 
+from own
+where acc_ID=i_ID and sto_ID=stock_ID;
+end;
+end if;
+insert into for_trading(sto_ID,acc_ID,datetime,transcation,price,number)
+value(stock_ID,i_ID,now(),"sell",offer_price,sell_num);
+end
+!!
+DELIMITER ;

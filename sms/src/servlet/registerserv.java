@@ -54,8 +54,7 @@ public class registerserv extends HttpServlet {
         request.getRequestDispatcher("register").forward(request, response);
         }
         else {
-        	HttpServletRequest req = (HttpServletRequest)request;
-        	HttpSession session = req.getSession();
+        	HttpSession session = request.getSession();
         	session.setAttribute("ID", acc.getID());
         	session.setAttribute("name", acc.getname());
         	response.sendRedirect("/sms/main");

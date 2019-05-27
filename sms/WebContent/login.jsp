@@ -13,7 +13,7 @@
             <th colspan="2">登录</th>
         </tr>
         <tr>
-        <td><input type="radio" name="acc_type" value="individul" checked>个人账户</td><td><input type="radio" name="acc_type" value="company">公司账户</td>
+        <td><input type="radio" name="acc_type" value="individual" checked>个人账户</td><td><input type="radio" name="acc_type" value="company">公司账户</td>
         </tr>
         <tr>
             <td>ID</td>

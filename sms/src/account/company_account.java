@@ -56,5 +56,33 @@ public class company_account extends account{
 			}
 		return error;
 	}
+
+	@Override
+	public String login(HttpServletRequest request) {
+		String error=null;
+		String userID=request.getParameter("userID");
+		String pwHash=getmd5(request.getParameter("password"));
+		dbconnect dc=null;
+		PreparedStatement psta=null;
+		ResultSet rs = null;
+		try{
+			dc=new dbconnect();
+			psta=dc.getconn().prepareStatement(
+					"select ID,company_name from company_account"
+					+ " where ID=? and pwHash=?");
+			psta.setString(1, userID);
+			psta.setString(2, pwHash);
+			rs=dc.query(psta);
+			if(rs.next()) {
+				this.ID=rs.getString("ID");
+				this.name=rs.getString("name");
+			}
+			else
+				error="用户名或密码错误";
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return error;
+	}
 	
 }

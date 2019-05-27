@@ -58,6 +58,15 @@
     	<servlet-name>tradeServlet</servlet-name>
     	<servlet-class>servlet.tradeserv</servlet-class>
     </servlet>
+    <servlet>
+    	<servlet-name>dealServlet</servlet-name>
+    	<servlet-class>servlet.dealserv</servlet-class>
+    </servlet>
+    <servlet>
+    	<servlet-name>simuServlet</servlet-name>
+    	<servlet-class>servlet.simuserv</servlet-class>
+    	<load-on-startup>9</load-on-startup>
+    </servlet>
   <servlet-mapping>
     <servlet-name>refreshServlet</servlet-name>
     <url-pattern>/refresh</url-pattern>
@@ -71,7 +80,15 @@
     <url-pattern>/reg</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>tradeServlet</servlet-name>
+  <servlet-name>tradeServlet</servlet-name>
     <url-pattern>/trade</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  <servlet-name>dealServlet</servlet-name>
+    <url-pattern>/deal</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>simuServlet</servlet-name>
+    <url-pattern>/simu</url-pattern>
   </servlet-mapping>
 </web-app>

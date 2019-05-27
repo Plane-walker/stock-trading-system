@@ -2,12 +2,14 @@ package account;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
 
 import database.dbconnect;
 
 public class individual_account extends account{
+	double asset=0;
 	@Override
 	public String register(HttpServletRequest request) {
 		String error=null;
@@ -62,10 +64,72 @@ public class individual_account extends account{
 		}
 		return error;
 	}
-	public void purchase() {
-		
+	public String purchase(HttpServletRequest request) {
+		String info=null;
+		double cost=Integer.valueOf(request.getParameter("number"))*Double.valueOf(request.getParameter("price"));
+		dbconnect dc=null;
+		PreparedStatement psta=null;
+		ResultSet rs = null;
+		try {
+			dc=new dbconnect();
+			psta=dc.getconn().prepareStatement(
+					"select asset from individual_account"
+					+ " where ID=?");
+			psta.setString(1, ID);
+			rs=dc.query(psta);
+			if(rs.next()) {
+				asset=rs.getDouble("asset");
+			}
+			if(asset<cost) {
+				info="资金不足，请充值";
+			}
+			else {
+				asset-=cost;
+				psta=dc.getconn().prepareStatement(
+						"call purchase(?,?,?,?,?)");
+				psta.setDouble(1, asset);
+				psta.setString(2, ID);
+				psta.setString(3, request.getParameter("stockID"));
+				psta.setInt(4, Integer.valueOf(request.getParameter("number")));
+				psta.setDouble(5, Double.valueOf(request.getParameter("price")));
+				dc.query(psta);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
 	}
 	public void sell() {
 		
+	}
+	@Override
+	public String login(HttpServletRequest request) {
+				String error=null;
+				String userID=request.getParameter("userID");
+				String pwHash=getmd5(request.getParameter("password"));
+				dbconnect dc=null;
+				PreparedStatement psta=null;
+				ResultSet rs = null;
+				try{
+					dc=new dbconnect();
+					psta=dc.getconn().prepareStatement(
+							"select ID,name from individual_account"
+							+ " where ID=? and pwHash=?");
+					psta.setString(1, userID);
+					psta.setString(2, pwHash);
+					rs=dc.query(psta);
+					if(rs.next()) {
+						this.ID=rs.getString("ID");
+						this.name=rs.getString("name");
+					}
+					else
+						error="用户名或密码错误";
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				return error;
+			}
+	public double getasset() {
+		return asset;
 	}
 }

@@ -39,6 +39,9 @@
 <td><input type="text" name="price" value="${price}"></td>
 </tr>
 <tr>
+<td><input type="hidden" name="stockID" value="${stockID}"></td>
+</tr>
+<tr>
 <td><input type="submit" value="提交"></td>
 </tr>
 </table>
