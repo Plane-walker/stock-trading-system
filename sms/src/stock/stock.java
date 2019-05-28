@@ -12,7 +12,6 @@ public class stock {
 	String issue_time;
 	int issue_circluation;
 	double issue_price;
-	int remain;
 	String type;
 	double open_price;
 	double max_price;
@@ -27,11 +26,11 @@ public class stock {
 		try {
 			dc=new dbconnect();
 			psta=dc.getconn().prepareStatement(
-					"select ID,name,remain,open_price,max_price,min_price,turnover,now_price,upsanddowns from stock natural join daily_info "
+					"select ID,name,turnover,now_price,upsanddowns from stock "
 					+ " order by turnover desc limit ?");
 			psta.setInt(1, size);
 			rs=dc.query(psta);
-			dealrs(rs,size);
+			genrs(rs,size);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -43,25 +42,37 @@ public class stock {
 		try {
 			dc=new dbconnect();
 			psta=dc.getconn().prepareStatement(
-					"select ID,name,remain,open_price,max_price,min_price,turnover,now_price,upsanddowns from stock natural join daily_info "
+					"select ID,name,open_price,max_price,min_price,turnover,now_price,upsanddowns from stock natural join daily_info "
 					+ " where ID=?");
 			psta.setString(1, ID);
 			rs=dc.query(psta);
-			dealrs(rs,1);
+			detailrs(rs);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	public void dealrs(ResultSet rs,int size) throws SQLException{
+	public void detailrs(ResultSet rs) throws SQLException{
+		try {
+			if(rs.next()){
+				this.ID=rs.getString("ID");
+				this.name=rs.getString("name");
+				this.open_price=rs.getDouble("open_price");
+				this.max_price=rs.getDouble("max_price");
+				this.min_price=rs.getDouble("min_price");
+				this.turnover=rs.getInt("turnover");
+				this.now_price=rs.getDouble("now_price");
+				this.upsanddowns=rs.getDouble("upsanddowns");
+			}
+		} catch (SQLException e) {
+			throw e;
+		}
+	}
+	public void genrs(ResultSet rs,int size) throws SQLException{
 		try {
 			for(int i=0;i<size&&rs.next();i++) 
 			if(i==size-1){
 				this.ID=rs.getString("ID");
 				this.name=rs.getString("name");
-				this.remain=rs.getInt("remain");
-				this.open_price=rs.getDouble("open_price");
-				this.max_price=rs.getDouble("max_price");
-				this.min_price=rs.getDouble("min_price");
 				this.turnover=rs.getInt("turnover");
 				this.now_price=rs.getDouble("now_price");
 				this.upsanddowns=rs.getDouble("upsanddowns");

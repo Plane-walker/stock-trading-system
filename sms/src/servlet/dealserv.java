@@ -35,12 +35,17 @@ public class dealserv extends HttpServlet {
 		individual_account acc=new individual_account();
 		acc.setID((String)session.getAttribute("ID"));
 		acc.setname((String)session.getAttribute("name"));
-		System.out.println(request.getParameter("trade_type"));
+		String info;
         if(request.getParameter("trade_type").equals("purchase")) {
-        acc.purchase(request);
+        info=acc.purchase(request);
         }
         else {
-        	acc.sell();
+        	info=acc.sell(request);
         }
+        if(info!=null)
+        request.setAttribute("result", info);
+        else
+        	request.setAttribute("result", "委托成功");
+        request.getRequestDispatcher("WEB-INF/dresult.jsp").forward(request, response);
 	}
 }

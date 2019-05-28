@@ -2,8 +2,6 @@ package account;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import javax.servlet.http.HttpServletRequest;
 
 import database.dbconnect;
@@ -73,6 +71,9 @@ public class individual_account extends account{
 		try {
 			dc=new dbconnect();
 			psta=dc.getconn().prepareStatement(
+					"delete from pre_trading");
+			dc.delete(psta);
+			psta=dc.getconn().prepareStatement(
 					"select asset from individual_account"
 					+ " where ID=?");
 			psta.setString(1, ID);
@@ -80,18 +81,18 @@ public class individual_account extends account{
 			if(rs.next()) {
 				asset=rs.getDouble("asset");
 			}
+			System.out.println(asset);
 			if(asset<cost) {
 				info="资金不足，请充值";
 			}
 			else {
 				asset-=cost;
 				psta=dc.getconn().prepareStatement(
-						"call purchase(?,?,?,?,?)");
-				psta.setDouble(1, asset);
-				psta.setString(2, ID);
-				psta.setString(3, request.getParameter("stockID"));
-				psta.setInt(4, Integer.valueOf(request.getParameter("number")));
-				psta.setDouble(5, Double.valueOf(request.getParameter("price")));
+						"call purchase(?,?,?,?)");
+				psta.setString(1, ID);
+				psta.setString(2, request.getParameter("stockID"));
+				psta.setInt(3, Integer.valueOf(request.getParameter("number")));
+				psta.setDouble(4, Double.valueOf(request.getParameter("price")));
 				dc.query(psta);
 			}
 		} catch (Exception e) {
@@ -99,8 +100,43 @@ public class individual_account extends account{
 		}
 		return info;
 	}
-	public void sell() {
-		
+	public String sell(HttpServletRequest request) {
+		String info=null;
+		int num=Integer.valueOf(request.getParameter("number"));
+		dbconnect dc=null;
+		PreparedStatement psta=null;
+		ResultSet rs = null;
+		try {
+			dc=new dbconnect();
+			psta=dc.getconn().prepareStatement(
+					"delete from pre_trading");
+			dc.delete(psta);
+			psta=dc.getconn().prepareStatement(
+					"select number from own"
+					+ " where acc_ID=? and sto_ID=?");
+			psta.setString(1, ID);
+			psta.setString(2,request.getParameter("stockID"));
+			rs=dc.query(psta);
+			int own_num=0;
+			if(rs.next()) {
+				own_num=rs.getInt("number");
+			}
+			if(own_num<num) {
+				info="数量不足";
+			}
+			else {
+				psta=dc.getconn().prepareStatement(
+						"call sell(?,?,?,?)");
+				psta.setString(1, ID);
+				psta.setString(2, request.getParameter("stockID"));
+				psta.setInt(3, Integer.valueOf(request.getParameter("number")));
+				psta.setDouble(4, Double.valueOf(request.getParameter("price")));
+				dc.query(psta);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
 	}
 	@Override
 	public String login(HttpServletRequest request) {

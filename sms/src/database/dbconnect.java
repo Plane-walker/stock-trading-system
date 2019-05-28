@@ -27,13 +27,13 @@ public class dbconnect {
 	public ResultSet query(PreparedStatement psta)throws Exception{
 		return psta.executeQuery();
 	}
-	public void update(PreparedStatement psta)throws Exception{
-		 psta.executeUpdate();
+	public int update(PreparedStatement psta)throws Exception{
+		 return psta.executeUpdate();
 	}
-	public void add(PreparedStatement psta)throws Exception{
-		 psta.executeUpdate();
+	public int add(PreparedStatement psta)throws Exception{
+		 return psta.executeUpdate();
 	}
-	public void delete(PreparedStatement psta)throws Exception{
-		 psta.executeUpdate();
+	public int delete(PreparedStatement psta)throws Exception{
+		 return psta.executeUpdate();
 	}
 }

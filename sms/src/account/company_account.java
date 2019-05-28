@@ -75,7 +75,7 @@ public class company_account extends account{
 			rs=dc.query(psta);
 			if(rs.next()) {
 				this.ID=rs.getString("ID");
-				this.name=rs.getString("name");
+				this.name=rs.getString("company_name");
 			}
 			else
 				error="用户名或密码错误";
@@ -105,7 +105,7 @@ public class company_account extends account{
 				rs=dc.query(psta);
 				if(!rs.next()) {
 				psta=dc.getconn().prepareStatement(
-						"insert into company_account(ID,name,issue_time,issue_circulation,issue_price,remain)"
+						"insert into company_account(ID,company_name,issue_time,issue_circulation,issue_price,remain)"
 						+ " value(?,?,now(),?,?,?) ");
 				psta.setString(1, ID);
 				psta.setString(2, name);
