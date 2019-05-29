@@ -63,6 +63,10 @@
     	<servlet-class>servlet.dealserv</servlet-class>
     </servlet>
     <servlet>
+    <servlet-name>exitServlet</servlet-name>
+    	<servlet-class>servlet.exitserv</servlet-class>
+    </servlet>
+    <servlet>
     	<servlet-name>simuServlet</servlet-name>
     	<servlet-class>servlet.simuserv</servlet-class>
     	<load-on-startup>9</load-on-startup>
@@ -86,6 +90,10 @@
   <servlet-mapping>
   <servlet-name>dealServlet</servlet-name>
     <url-pattern>/deal</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  <servlet-name>exitServlet</servlet-name>
+    <url-pattern>/exit</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>simuServlet</servlet-name>

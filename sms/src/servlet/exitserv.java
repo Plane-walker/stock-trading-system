@@ -9,13 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import account.individual_account;
-
 /**
- * Servlet implementation class dealserv
+ * Servlet implementation class exitserv
  */
-@WebServlet("/dealserv")
-public class dealserv extends HttpServlet {
+@WebServlet("/exitserv")
+public class exitserv extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -30,20 +28,9 @@ public class dealserv extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		individual_account acc=new individual_account();
-		acc.setID((String)session.getAttribute("ID"));
-		acc.setname((String)session.getAttribute("name"));
-		String info;
-        if(request.getParameter("trade_type").equals("purchase")) {
-        info=acc.purchase(request);
-        }
-        else {
-        	info=acc.sell(request);
-        }
-        if(info!=null)
-        request.setAttribute("result", info);
-        else
-        	request.setAttribute("result", "委托成功");
-        request.getRequestDispatcher("WEB-INF/dresult.jsp").forward(request, response);
+		session.invalidate();
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json; charset=utf-8");
+        response.getWriter().print("{}");
 	}
 }

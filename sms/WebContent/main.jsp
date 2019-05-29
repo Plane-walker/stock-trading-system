@@ -73,12 +73,29 @@ function searchID(){
 	s_ID=$("#stockID").val();
 	refresh();
 };
+
+function exit(){
+	var url = "exit";
+	var data = {};
+	 $.ajax({
+		   type :"post",
+		   dataType: "json",
+		   url : url,
+		   data : data,
+		   timeout:1000,
+		   success:function(dates){
+		   },
+		   error:function() {
+		       }
+		  });
+	 window.location.reload();
+};
  $(function(){
 	 refresh();
  	 setInterval(refresh,1000);
 })
 </script>
-<label class="col-md-12 text-right"><% out.print((String)session.getAttribute("name")+" 你好");%></label>
+<label class="col-md-12 text-right"><%out.print((String)session.getAttribute("name")+" 你好 ");%><a id="exit" href="javascript:void(0);" onclick="return exit()">退出登录</a></label>
 <div class="container">
 <input class="col-md-4" type="text" ID="stockID" value="${stockID}" autocomplete="off" placeholder="输入股票名称">
 <input class="col-md-1" type="submit" value="搜索" onclick="return searchID()">
