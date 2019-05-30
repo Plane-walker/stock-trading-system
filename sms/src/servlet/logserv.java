@@ -44,7 +44,6 @@ public class logserv extends HttpServlet {
 		else
 			acc=new company_account();
         String info=acc.login(request);
-        System.out.println(request.getParameter("acc_type"));
         if(info!=null) {
         request.setAttribute("error", info);
         request.setAttribute("userID", request.getParameter("userID"));
@@ -54,7 +53,7 @@ public class logserv extends HttpServlet {
         	HttpSession session = request.getSession();
         	session.setAttribute("ID", acc.getID());
         	session.setAttribute("name", acc.getname());
-        	session.setAttribute("acc_type", request.getAttribute("acc_type"));
+        	session.setAttribute("acc_type", request.getParameter("acc_type"));
         	response.sendRedirect("/sms/main");
         }
 	}

@@ -7,8 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 abstract public class account {
 	String ID=null;
 	String name=null;
+	String country=null;
 	abstract public String register(HttpServletRequest request);
 	abstract public String login(HttpServletRequest request);
+	abstract public void getinfo(HttpServletRequest request);
 	public String getID() {
 		return ID;
 	}

@@ -62,11 +62,11 @@
 </label>
 <div class="form-group form-inline">
 <label class="control-label col-md-2">数量：</label>
-<input class="form-control col-md-6" type="text" name="number" value="${number}">
+<input class="form-control col-md-6" type="text" name="number" value="${number}" autocomplete="off">
 </div>
 <div class="form-group form-inline">
 <label class="control-label col-md-2">价格：</label>
-<input class="form-control col-md-6" type="text" name="price" value="${price}">
+<input class="form-control col-md-6" type="text" name="price" value="${price}" autocomplete="off">
 </div>
 <input type="hidden" name="stockID" value="${stockID}">
 <div class="form-group form-inline">

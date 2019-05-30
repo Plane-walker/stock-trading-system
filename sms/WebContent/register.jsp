@@ -56,11 +56,11 @@ function indi(){
         <input type="radio" name="acc_type" value="company" onclick="comp()">公司账户
         </label>
         <div class="form-group form-inline">
-            <label class="control-label col-md-4">ID：</label>
+            <label class="control-label col-md-4">用户名：</label>
             <input class="form-control col-md-6" type="text" name="userID" value="${userID}" autocomplete="off">
         </div>
         <div class="form-group form-inline">
-            <label class="control-label col-md-4">名称：</label>
+            <label class="control-label col-md-4">昵称：</label>
             <input type="text" class="form-control col-md-6" name="username" value="${username}" autocomplete="off">
         </div>
         <div class="form-group form-inline">

@@ -6,22 +6,26 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import account.account;
+import account.company_account;
+import account.individual_account;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import stock.stock;
 
 /**
- * Servlet implementation class refreshserv
+ * Servlet implementation class ownserv
  */
-@WebServlet("/refreshserv")
-public class refreshserv extends HttpServlet {
+@WebServlet("/ownserv")
+public class ownserv extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public refreshserv() {
+    public ownserv() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,34 +41,10 @@ public class refreshserv extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int size=Integer.valueOf(request.getParameter("size"));
-		stock[] st=new stock[size];
+		individual_account ia=new individual_account();
+		ia.setID(request.getParameter("ID"));
 		JSONArray jsona = new JSONArray();
-		if(request.getParameter("s_name")==null||request.getParameter("s_name").length()==0)
-		for(int i=0;i<size;i++) {
-			st[i]=new stock();
-			st[i].gettop(i+1);
-			if(st[i].getID()!=null) {
-			JSONObject json=new JSONObject();
-			json.put("ID", st[i].getID());
-			json.put("name", st[i].getname());
-			json.put("now_price", st[i].getnow_price());
-			json.put("upsanddowns", st[i].getupsanddowns());
-			jsona.put(json);
-			}
-		}
-		else {
-			st[0]=new stock();
-			st=st[0].getbyname(request.getParameter("s_name"));
-			for(int i=0;i<st.length;i++) {
-				JSONObject json=new JSONObject();
-				json.put("ID", st[i].getID());
-				json.put("name", st[i].getname());
-				json.put("now_price", st[i].getnow_price());
-				json.put("upsanddowns", st[i].getupsanddowns());
-				jsona.put(json);
-			}
-		}
+		jsona=ia.getown();
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json; charset=utf-8");
         response.getWriter().print(jsona.toString());

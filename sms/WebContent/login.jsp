@@ -44,11 +44,11 @@
         <input type="radio" name="acc_type" value="company">公司账户
         </label>
         <div class="form-group form-inline">
-            <label class="control-label col-md-2">ID：</label>
+            <label class="control-label col-md-3">用户名：</label>
             <input type="text" class="form-control col-md-6" name="userID" value="${userID}" autocomplete="off">
         </div>
         <div class="form-group form-inline">
-            <label class="control-label col-md-2">密码：</label>
+            <label class="control-label col-md-3">密码：</label>
             <input type="password" class="form-control col-md-6" name="password" value="${password}" autocomplete="off">
         </div>
         <div class="form-group form-inline">

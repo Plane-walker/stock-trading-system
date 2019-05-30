@@ -19,4 +19,8 @@
         <from>^/trading$</from>  
         <to type="forward">trading.jsp</to> 
     </rule>
+    <rule>
+        <from>^/homing$</from>  
+        <to type="forward">homing.jsp</to> 
+    </rule>
 </urlrewrite>

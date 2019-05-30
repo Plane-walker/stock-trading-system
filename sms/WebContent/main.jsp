@@ -37,7 +37,7 @@
 var s_ID;
 function refresh(){
 	  var url = "refresh";
-	  var data = {"s_ID":s_ID,"size":"10"};
+	  var data = {"s_name":s_ID,"size":"10"};
 	  $.ajax({
 	   type :"post",
 	   dataType: "json",
@@ -60,6 +60,7 @@ function refresh(){
 			   html+="<td><font color='red'>"+dates[i].now_price+"<font></td>";
 			   html+="<td><font color='red'>"+dates[i].upsanddowns*100+"% ↑<font></td>";
 		   }
+		   if("<%out.print((String)session.getAttribute("acc_type"));%>"=="individual")
 		   html+="<td><form action='trade' methon='get'><input type='hidden' name='stockID' value='"+dates[i].ID+"'><input type='submit' value='交易'></input></form></td>";
 		   html+="</tr>";
 	   }
@@ -95,7 +96,7 @@ function exit(){
  	 setInterval(refresh,1000);
 })
 </script>
-<label class="col-md-12 text-right"><%out.print((String)session.getAttribute("name")+" 你好 ");%><a id="exit" href="javascript:void(0);" onclick="return exit()">退出登录</a></label>
+<label class="col-md-12 text-right"><a href=<%="home?ID="+(String)session.getAttribute("ID")%>><%out.print((String)session.getAttribute("name"));%></a> 你好 <a id="exit" href="javascript:void(0);" onclick="return exit()">退出登录</a></label>
 <div class="container">
 <input class="col-md-4" type="text" ID="stockID" value="${stockID}" autocomplete="off" placeholder="输入股票名称">
 <input class="col-md-1" type="submit" value="搜索" onclick="return searchID()">

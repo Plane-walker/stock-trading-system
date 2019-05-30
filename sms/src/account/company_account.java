@@ -125,4 +125,8 @@ public class company_account extends account{
 		return error;
 		
 	}
+
+	@Override
+	public void getinfo(HttpServletRequest request) {
+	}
 }

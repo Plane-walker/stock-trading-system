@@ -57,6 +57,7 @@ public class registerserv extends HttpServlet {
         	HttpSession session = request.getSession();
         	session.setAttribute("ID", acc.getID());
         	session.setAttribute("name", acc.getname());
+        	session.setAttribute("acc_type", request.getParameter("acc_type"));
         	response.sendRedirect("/sms/main");
         }
 	}

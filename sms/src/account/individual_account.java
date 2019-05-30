@@ -4,10 +4,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.servlet.http.HttpServletRequest;
 
+import com.mysql.cj.xdevapi.JsonArray;
+
 import database.dbconnect;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 public class individual_account extends account{
 	double asset=0;
+	String gender=null;
 	@Override
 	public String register(HttpServletRequest request) {
 		String error=null;
@@ -167,5 +172,58 @@ public class individual_account extends account{
 			}
 	public double getasset() {
 		return asset;
+	}
+	@Override
+	public void getinfo(HttpServletRequest request) {
+		String userID=request.getParameter("ID");
+		dbconnect dc=null;
+		PreparedStatement psta=null;
+		ResultSet rs = null;
+		try{
+			dc=new dbconnect();
+			psta=dc.getconn().prepareStatement(
+					"select ID,name,asset,gender,country from individual_account"
+					+ " where ID=?");
+			psta.setString(1, userID);
+			rs=dc.query(psta);
+			if(rs.next()) {
+				this.ID=rs.getString("ID");
+				this.name=rs.getString("name");
+				this.gender=rs.getString("gender");
+				this.country=rs.getString("country");
+				this.asset=rs.getDouble("asset");
+			}
+			request.setAttribute("name", name);
+			request.setAttribute("gender", gender);
+			request.setAttribute("country", country);
+			request.setAttribute("asset", asset);
+			System.out.println(asset);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public JSONArray getown() {
+		dbconnect dc=null;
+		PreparedStatement psta=null;
+		ResultSet rs = null;
+		JSONArray ja=new JSONArray();
+		try{
+			dc=new dbconnect();
+			psta=dc.getconn().prepareStatement(
+					"select sto_ID,number from own"
+					+ " where acc_ID=?");
+			psta.setString(1, ID);
+			rs=dc.query(psta);
+			while(rs.next()) {
+				JSONObject json=new JSONObject();
+				json.put("sto_ID", rs.getString("sto_ID"));
+				json.put("number", rs.getString("number"));
+				ja.put(json);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return ja;
+		
 	}
 }

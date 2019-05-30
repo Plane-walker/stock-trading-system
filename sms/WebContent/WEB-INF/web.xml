@@ -46,6 +46,10 @@
     	<servlet-name>refreshServlet</servlet-name>
     	<servlet-class>servlet.refreshserv</servlet-class>
     </servlet>
+    <servlet>
+    	<servlet-name>ownServlet</servlet-name>
+    	<servlet-class>servlet.ownserv</servlet-class>
+    </servlet>
   <servlet>
     <servlet-name>logServlet</servlet-name>
     <servlet-class>servlet.logserv</servlet-class>
@@ -67,6 +71,10 @@
     	<servlet-class>servlet.exitserv</servlet-class>
     </servlet>
     <servlet>
+    <servlet-name>homeServlet</servlet-name>
+    	<servlet-class>servlet.homeserv</servlet-class>
+    </servlet>
+    <servlet>
     	<servlet-name>simuServlet</servlet-name>
     	<servlet-class>servlet.simuserv</servlet-class>
     	<load-on-startup>9</load-on-startup>
@@ -74,6 +82,10 @@
   <servlet-mapping>
     <servlet-name>refreshServlet</servlet-name>
     <url-pattern>/refresh</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ownServlet</servlet-name>
+    <url-pattern>/own</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>logServlet</servlet-name>
@@ -94,6 +106,10 @@
   <servlet-mapping>
   <servlet-name>exitServlet</servlet-name>
     <url-pattern>/exit</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  <servlet-name>homeServlet</servlet-name>
+    <url-pattern>/home</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>simuServlet</servlet-name>

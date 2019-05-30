@@ -51,6 +51,23 @@ public class stock {
 			e.printStackTrace();
 		}
 	}
+	public stock[] getbyname(String name) {
+		dbconnect dc=null;
+		PreparedStatement psta=null;
+		ResultSet rs = null;
+		try {
+			dc=new dbconnect();
+			psta=dc.getconn().prepareStatement(
+					"select ID,name,open_price,max_price,min_price,turnover,now_price,upsanddowns from stock natural join daily_info "
+					+ " where LOCATE(?, name)>0",ResultSet.TYPE_SCROLL_INSENSITIVE);
+			psta.setString(1, name);
+			rs=dc.query(psta);
+			return partrs(rs);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	public void detailrs(ResultSet rs) throws SQLException{
 		try {
 			if(rs.next()){
@@ -81,6 +98,24 @@ public class stock {
 			throw e;
 		}
 	}
+	public stock[] partrs(ResultSet rs) throws SQLException{
+		try {
+			rs.last(); 
+			stock[] out=new stock[rs.getRow()];
+			rs.beforeFirst(); 
+			for(int i=0;rs.next();i++) {
+				out[i]=new stock();
+				out[i].setID(rs.getString("ID"));
+				out[i].setname(rs.getString("name"));
+				out[i].setnow_price(rs.getDouble("now_price"));
+				out[i].setupsanddowns(rs.getDouble("upsanddowns"));
+			}
+			return out;
+		} catch (SQLException e) {
+			throw e;
+		}
+		
+	}
 	public String getID() {
 		return ID;
 	}
@@ -92,5 +127,17 @@ public class stock {
 	}
 	public double getupsanddowns() {
 		return upsanddowns;
+	}
+	public void setID(String ID) {
+		this.ID=ID;
+	}
+	public void setname(String name) {
+		this.name=name;
+	}
+	public void setnow_price(double now_price) {
+		this.now_price=now_price;
+	}
+	public void setupsanddowns(double upsanddowns) {
+		this.upsanddowns=upsanddowns;
 	}
 }
