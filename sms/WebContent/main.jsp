@@ -48,17 +48,17 @@ function refresh(){
 		   var html="";
 		   for(var i=0;i<dates.length;i++){
 		   html+="<tr>";
-		   if(dates.upsanddowns<0){
+		   if(dates[i].upsanddowns<0){
 		   html+="<td><font color='green'>"+dates[i].ID+"<font></td>";
 		   html+="<td><font color='green'>"+dates[i].name+"<font></td>";
 		   html+="<td><font color='green'>"+dates[i].now_price+"<font></td>";
-		   html+="<td><font color='green'>"+dates[i].upsanddowns*100+"% ↓<font></td>";
+		   html+="<td><font color='green'>"+dates[i].upsanddowns+"% ↓<font></td>";
 		   }
 		   else{
 			   html+="<td><font color='red'>"+dates[i].ID+"<font></td>";
 			   html+="<td><font color='red'>"+dates[i].name+"<font></td>";
 			   html+="<td><font color='red'>"+dates[i].now_price+"<font></td>";
-			   html+="<td><font color='red'>"+dates[i].upsanddowns*100+"% ↑<font></td>";
+			   html+="<td><font color='red'>"+dates[i].upsanddowns+"% ↑<font></td>";
 		   }
 		   if("<%out.print((String)session.getAttribute("acc_type"));%>"=="individual")
 		   html+="<td><form action='trade' methon='get'><input type='hidden' name='stockID' value='"+dates[i].ID+"'><input type='submit' value='交易'></input></form></td>";

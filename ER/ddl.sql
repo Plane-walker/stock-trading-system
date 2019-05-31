@@ -12,8 +12,8 @@ drop table if exists individual_account;
 /*==============================================================*/
 create table individual_account
 (
-   ID                   varchar(20) not null,
-   name                 varchar(20) not null,
+   ID                   varchar(50) not null,
+   name                 varchar(50) not null,
    pwHash               varchar(32) not null,
    gender               varchar(6) not null,
    asset                double not null,
@@ -28,8 +28,8 @@ create table individual_account
 /*==============================================================*/
 create table company_account
 (
-   ID                   varchar(20) not null,
-   company_name         varchar(20) not null,
+   ID                   varchar(50) not null,
+   company_name         varchar(50) not null,
    pwHash               varchar(32) not null,
    country              varchar(20) not null,
    primary key (ID)
@@ -40,8 +40,8 @@ create table company_account
 /*==============================================================*/
 create table stock
 (
-   ID                   varchar(20) not null,
-   name                 varchar(20) not null,
+   ID                   varchar(50) not null,
+   name                 varchar(50) not null,
    issue_time           datetime not null,
    issue_circulation    int not null,
    issue_price          double not null,
@@ -61,8 +61,8 @@ alter table stock add constraint FK_Reference_6 foreign key (ID)
 /*==============================================================*/
 create table own
 (
-   acc_ID               varchar(20) not null,
-   sto_ID               varchar(20) not null,
+   acc_ID               varchar(50) not null,
+   sto_ID               varchar(50) not null,
    number               int not null,
    primary key (acc_ID, sto_ID)
 );
@@ -78,8 +78,8 @@ alter table own add constraint FK_Reference_3 foreign key (sto_ID)
 /*==============================================================*/
 create table trading_record
 (
-   acc_ID               varchar(20) not null,
-   sto_ID               varchar(20) not null,
+   acc_ID               varchar(50) not null,
+   sto_ID               varchar(50) not null,
    datetime             datetime not null,
    transcation          varchar(4) not null,
    price                double not null,
@@ -99,7 +99,7 @@ alter table trading_record add constraint FK_Reference_5 foreign key (sto_ID)
 /*==============================================================*/
 create table daily_info
 (
-   ID                   varchar(20) not null,
+   ID                   varchar(50) not null,
    date                 date not null,
    open_price           double not null,
    closing_price        double not null,
@@ -116,8 +116,8 @@ alter table daily_info add constraint FK_Reference_1 foreign key (ID)
 /*==============================================================*/
 create table for_trading
 (
-   sto_ID               varchar(20) not null,
-   acc_ID               varchar(20) not null,
+   sto_ID               varchar(50) not null,
+   acc_ID               varchar(50) not null,
    datetime             datetime not null,
    transcation          varchar(4) not null,
    price                double,
@@ -136,8 +136,8 @@ alter table for_trading add constraint FK_Reference_8 foreign key (acc_ID)
 /*==============================================================*/
 create table pre_trading
 (
-   acc_ID               varchar(20) not null,
-   sto_ID               varchar(20) not null,
+   acc_ID               varchar(50) not null,
+   sto_ID               varchar(50) not null,
    datetime                 datetime not null,
    transcation          varchar(4) not null,
    price                double,
@@ -152,7 +152,7 @@ alter table pre_trading add constraint FK_Reference_9 foreign key (acc_ID)
       references individual_account (ID) on delete restrict on update restrict;
 drop procedure if exists purchase;
 DELIMITER !!
-create procedure purchase(i_ID varchar(20),stock_ID varchar(20),num int,offer_price double)
+create procedure purchase(i_ID varchar(50),stock_ID varchar(50),num int,offer_price double)
 begin
 insert into pre_trading(sto_ID,acc_ID,datetime,transcation,price,number)
 value(stock_ID,i_ID,now(),"buy",offer_price,num);
@@ -161,7 +161,7 @@ end
 DELIMITER ;
 drop procedure if exists sell;
 DELIMITER !!
-create procedure sell(i_ID varchar(20),stock_ID varchar(20),sell_num int,offer_price double)
+create procedure sell(i_ID varchar(50),stock_ID varchar(50),sell_num int,offer_price double)
 begin
 insert into pre_trading(sto_ID,acc_ID,datetime,transcation,price,number)
 value(stock_ID,i_ID,now(),"sell",offer_price,sell_num);
@@ -176,7 +176,7 @@ if new.transcation="buy" then
 begin
 declare sell_price double;
 declare sell_num double;
-declare sell_ID varchar(20);
+declare sell_ID varchar(50);
 declare sell_date datetime;
 declare own_num int;
 select acc_ID,price,number,datetime into sell_ID,sell_price,sell_num,sell_date from for_trading
@@ -249,7 +249,7 @@ else
 begin
 declare buy_price double;
 declare buy_num double;
-declare buy_ID varchar(20);
+declare buy_ID varchar(50);
 declare buy_date datetime;
 declare own_num int;
 select acc_ID,price,number,datetime into buy_ID,buy_price,buy_num,buy_date from for_trading

@@ -22,8 +22,12 @@ abstract public class account {
 			this.ID=ID;
 	}
 	public void setname(String name) {
-		if(this.ID==null)
+		if(this.name==null)
 			this.name=name;
+	}
+	public void setcountry(String country) {
+		if(this.country==null)
+			this.country=country;
 	}
 	String getmd5(String input) {
 		String output="";

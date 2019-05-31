@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import javax.servlet.http.HttpServletRequest;
 
 import database.dbconnect;
+import stock.stock;
 
 public class company_account extends account{
 
@@ -87,11 +88,17 @@ public class company_account extends account{
 	public String publish(HttpServletRequest request)
 	{
 		String error=null;
-		String ID=request.getParameter("userID");
-		String name=request.getParameter("stockname");
-		int issue_circulation=Integer.valueOf(request.getParameter("circulation"));
-		double issue_price=Double.valueOf(request.getParameter("stockprice"));
-		int remain=Integer.valueOf(request.getParameter("stocknum"));
+		stock st=new stock();
+		st.inti(request, ID);
+		error=st.publish();
+		return error;
+		
+	}
+
+	@Override
+	public void getinfo(HttpServletRequest request) {
+	}
+	public void register() {
 			dbconnect dc=null;
 			PreparedStatement psta=null;
 			ResultSet rs = null;
@@ -99,34 +106,21 @@ public class company_account extends account{
 				dc=new dbconnect();
 				psta=dc.getconn().prepareStatement(
 						"select ID from company_account"
-						+ " where ID=? and name=?");
+						+ " where ID=?");
 				psta.setString(1, ID);
-				psta.setString(2, name);
 				rs=dc.query(psta);
-				if(!rs.next()) {
+				if(ID!=null&&!rs.next()) {
 				psta=dc.getconn().prepareStatement(
-						"insert into company_account(ID,company_name,issue_time,issue_circulation,issue_price,remain)"
-						+ " value(?,?,now(),?,?,?) ");
+						"insert into company_account(ID,company_name,pwHash,country)"
+						+ " value(?,?,?,?) ");
 				psta.setString(1, ID);
 				psta.setString(2, name);
-				psta.setInt(3, issue_circulation);
-				psta.setDouble(4, issue_price);
-				psta.setInt(5, remain);
+				psta.setString(3, getmd5(ID));
+				psta.setString(4, country);
 				dc.add(psta);
-				this.ID=ID;
-				this.name=name;
-				}
-				else {
-					error="请勿重复发布股票！";
 				}
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
-		return error;
-		
-	}
-
-	@Override
-	public void getinfo(HttpServletRequest request) {
 	}
 }
