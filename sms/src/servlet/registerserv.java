@@ -39,7 +39,7 @@ public class registerserv extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		account acc;
-		if(request.getParameter("acc_type").equals("individul"))
+		if(request.getParameter("acc_type").equals("individual"))
 			acc=new individual_account();
 		else
 			acc=new company_account();
