@@ -250,7 +250,11 @@ public class stock {
 		this.ID=ID;
 	}
 	public void setname(String name) {
-		this.name=name;
+		if(this.name==null)
+			if(name.length()<50)
+			this.name=name;
+			else
+				this.name=name.substring(0, 49);
 	}
 	public void setnow_price(double now_price) {
 		this.now_price=now_price;

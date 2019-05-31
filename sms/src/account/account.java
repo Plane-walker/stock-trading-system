@@ -23,7 +23,10 @@ abstract public class account {
 	}
 	public void setname(String name) {
 		if(this.name==null)
+			if(name.length()<50)
 			this.name=name;
+			else
+				this.name=name.substring(0, 49);
 	}
 	public void setcountry(String country) {
 		if(this.country==null)

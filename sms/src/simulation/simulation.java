@@ -3,10 +3,13 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
 
 import account.company_account;
+import database.dbconnect;
 import net.sf.json.JSONObject;
 import stock.stock;
 import net.sf.json.JSONArray;
@@ -29,10 +32,29 @@ public class simulation extends Thread{
 		
 	}
 	void gainsotck() {
+		dbconnect dc=null;
+		PreparedStatement psta=null;
+		ResultSet rs = null;
+		
 		try {
+			dc=new dbconnect();
+			psta=dc.getconn().prepareStatement(
+					"select ID from stock"
+					+ " where ID=?");
+			psta.setString(1, "admin");
+			rs=dc.query(psta);
+			if(!rs.next()) {
+			psta=dc.getconn().prepareStatement(
+					"insert into  individual_account(ID,name,pwHash,gender,asset,country)"
+					+ " value('admin','admin','21232f297a57a5a743894a0e4a801fc3','male',3,'China')");
+			dc.add(psta);
+			}
 			data(5);
 		} catch (SQLException e) {
 
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}	

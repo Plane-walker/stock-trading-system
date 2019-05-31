@@ -50,7 +50,7 @@ function indi(){
 <h2>注册</h2>
 <form action="reg" method="post">
         <label class="radio-inline col-md-5">
-        <input type="radio" name="acc_type" value="individul" checked onclick="indi()">个人账户
+        <input type="radio" name="acc_type" value="individual" checked onclick="indi()">个人账户
         </label>
         <label class="radio-inline col-md-5">
         <input type="radio" name="acc_type" value="company" onclick="comp()">公司账户
