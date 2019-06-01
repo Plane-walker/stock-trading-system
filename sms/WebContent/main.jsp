@@ -57,8 +57,8 @@ function refresh(){
 		   else{
 			   html+="<td><font color='red'>"+dates[i].ID+"<font></td>";
 			   html+="<td><font color='red'>"+dates[i].name+"<font></td>";
-			   html+="<td><font color='red'>"+dates[i].now_price+"<font></td>";
-			   html+="<td><font color='red'>"+dates[i].upsanddowns+"% ↑<font></td>";
+			   html+="<td><font color='red'>"+(dates[i].now_price).toFixed(2)+"<font></td>";
+			   html+="<td><font color='red'>"+(dates[i].upsanddowns).toFixed(2)+"% ↑<font></td>";
 		   }
 		   if("<%out.print((String)session.getAttribute("acc_type"));%>"=="individual")
 		   html+="<td><form action='trade' methon='get'><input type='hidden' name='stockID' value='"+dates[i].ID+"'><input type='submit' value='交易'></input></form></td>";

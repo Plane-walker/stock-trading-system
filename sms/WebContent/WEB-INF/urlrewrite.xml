@@ -23,4 +23,8 @@
         <from>^/homing$</from>  
         <to type="forward">homing.jsp</to> 
     </rule>
+    <rule>
+        <from>^/publish$</from>  
+        <to type="forward">publish.jsp</to> 
+    </rule>
 </urlrewrite>

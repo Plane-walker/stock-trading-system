@@ -97,6 +97,27 @@ public class company_account extends account{
 
 	@Override
 	public void getinfo(HttpServletRequest request) {
+		String userID=request.getParameter("ID");
+		dbconnect dc=null;
+		PreparedStatement psta=null;
+		ResultSet rs = null;
+		try{
+			dc=new dbconnect();
+			psta=dc.getconn().prepareStatement(
+					"select ID,company_name,country from company_account"
+					+ " where ID=?");
+			psta.setString(1, userID);
+			rs=dc.query(psta);
+			if(rs.next()) {
+				this.ID=rs.getString("ID");
+				this.name=rs.getString("company_name");
+				this.country=rs.getString("country");
+			}
+			request.setAttribute("name", name);
+			request.setAttribute("country", country);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	public void register() {
 			dbconnect dc=null;

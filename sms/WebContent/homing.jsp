@@ -31,6 +31,8 @@ function info(){
 	html+="<td>${country}</td>";
 	if("<%out.print((String)session.getAttribute("acc_type"));%>"=="individual")
 	html+="<td>${asset}</td>";
+	if("<%out.print((String)session.getAttribute("acc_type"));%>"!="individual")
+		html+="<td><a href='publish'>发布股票</a></td>";
 	html+="</tr>";
 	$("#infobody").html(html);
 };

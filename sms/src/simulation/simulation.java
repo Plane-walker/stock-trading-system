@@ -39,7 +39,7 @@ public class simulation extends Thread{
 		try {
 			dc=new dbconnect();
 			psta=dc.getconn().prepareStatement(
-					"select ID from stock"
+					"select ID from individual_account"
 					+ " where ID=?");
 			psta.setString(1, "admin");
 			rs=dc.query(psta);

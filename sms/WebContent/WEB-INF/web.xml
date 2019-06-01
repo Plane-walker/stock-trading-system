@@ -67,6 +67,10 @@
     	<servlet-class>servlet.dealserv</servlet-class>
     </servlet>
     <servlet>
+    	<servlet-name>publishServlet</servlet-name>
+    	<servlet-class>servlet.publishserv</servlet-class>
+    </servlet>
+    <servlet>
     <servlet-name>exitServlet</servlet-name>
     	<servlet-class>servlet.exitserv</servlet-class>
     </servlet>
@@ -102,6 +106,10 @@
   <servlet-mapping>
   <servlet-name>dealServlet</servlet-name>
     <url-pattern>/deal</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  <servlet-name>publishServlet</servlet-name>
+    <url-pattern>/publish</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   <servlet-name>exitServlet</servlet-name>

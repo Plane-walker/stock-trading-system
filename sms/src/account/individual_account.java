@@ -4,8 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.servlet.http.HttpServletRequest;
 
-import com.mysql.cj.xdevapi.JsonArray;
-
 import database.dbconnect;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;

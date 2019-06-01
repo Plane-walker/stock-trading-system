@@ -125,13 +125,13 @@ public class stock {
 		type=request.getParameter("type");
 		issue_circulation=Integer.valueOf(request.getParameter("issue_circulation"));
 		issue_price=Double.valueOf(request.getParameter("issue_price"));
-		open_price=Double.valueOf(request.getParameter("open_price"));
-		open_price=Double.valueOf(request.getParameter("closing_price"));
-		max_price=Double.valueOf(request.getParameter("max_price"));
-		min_price=Double.valueOf(request.getParameter("min_price"));
-		turnover=Integer.valueOf(request.getParameter("turnover"));
-		now_price=Double.valueOf(request.getParameter("now_price"));
-		upsanddowns=Double.valueOf(request.getParameter("upsanddowns"));
+		open_price=Double.valueOf(request.getParameter("issue_price"));
+		open_price=Double.valueOf(request.getParameter("issue_price"));
+		max_price=Double.valueOf(request.getParameter("issue_price"));
+		min_price=Double.valueOf(request.getParameter("issue_price"));
+		turnover=0;
+		now_price=Double.valueOf(request.getParameter("issue_price"));
+		upsanddowns=0;
 	}
 	public String publish() {
 		String error=null;
