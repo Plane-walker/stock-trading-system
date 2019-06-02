@@ -85,8 +85,8 @@ function refresh(){
 		   if(dates[i].upsanddowns<0){
 		   html+="<td><font color='green'>"+dates[i].ID+"<font></td>";
 		   html+="<td><font color='green'>"+dates[i].name+"<font></td>";
-		   html+="<td><font color='green'>"+dates[i].now_price+"<font></td>";
-		   html+="<td><font color='green'>"+dates[i].upsanddowns+"% ↓<font></td>";
+		   html+="<td><font color='green'>"+dates[i].now_price.toFixed(2)+"<font></td>";
+		   html+="<td><font color='green'>"+dates[i].upsanddowns.toFixed(2)+"% ↓<font></td>";
 		   }
 		   else{
 			   html+="<td><font color='red'>"+dates[i].ID+"<font></td>";

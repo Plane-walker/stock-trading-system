@@ -33,11 +33,11 @@ public class stock {
 		try {
 			dc=new dbconnect();
 			psta=dc.getconn().prepareStatement(
-					"select ID,name,turnover,now_price,upsanddowns from stock "
-					+ " order by turnover desc limit ?,1");
-			psta.setInt(1, size-1);
+					"select * from stock "
+					+ " order by turnover desc limit ?, 1 ");
+			psta.setInt(1, size);
 			rs=dc.query(psta);
-			genrs(rs,size);
+			genrs(rs);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -91,7 +91,7 @@ public class stock {
 			throw e;
 		}
 	}
-	public void genrs(ResultSet rs,int size) throws SQLException{
+	public void genrs(ResultSet rs) throws SQLException{
 		try {
 			if(rs.next()){
 				this.ID=rs.getString("ID");

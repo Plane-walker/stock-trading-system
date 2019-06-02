@@ -56,28 +56,37 @@ function indi(){
         <input type="radio" name="acc_type" value="company" onclick="comp()">公司账户
         </label>
         <div class="form-group form-inline">
-            <label class="control-label col-md-4">用户名：</label>
+            <label class="control-label col-md-4">*用户名：</label>
             <input class="form-control col-md-6" type="text" name="userID" value="${userID}" autocomplete="off">
         </div>
         <div class="form-group form-inline">
-            <label class="control-label col-md-4">昵称：</label>
+            <label class="control-label col-md-4">*昵称：</label>
             <input type="text" class="form-control col-md-6" name="username" value="${username}" autocomplete="off">
         </div>
         <div class="form-group form-inline">
-            <label class="control-label col-md-4">密码：</label>
+            <label class="control-label col-md-4">*密码：</label>
             <input type="password" class="form-control col-md-6" name="password" value="${password}" autocomplete="off">
         </div>
         <div class="form-group form-inline">
-            <label class="control-label col-md-4">重复密码：</label>
+            <label class="control-label col-md-4">*重复密码：</label>
             <input type="password" class="form-control col-md-6" name="repassword" value="${repassword}" autocomplete="off">
         </div>
         <div class="form-group form-inline">
-            <label class="control-label col-md-4" ID="gendertext">性别：</label>
-            <input type="text" class="form-control col-md-6" ID="gender" name="gender" value="${gender}" autocomplete="off">
+            <label class="control-label col-md-4" ID="gendertext">*性别：</label>
+            <select class="form-control col-md-6" ID="gender" name="gender" >
+            <option value="male" selected>男</option>
+            <option value="female">女</option>
+            </select>
         </div>
         <div class="form-group form-inline">
-            <label class="control-label col-md-4">国家或地区：</label>
-            <input type="text" class="form-control col-md-6" name="country" value="${country}" autocomplete="off">
+            <label class="control-label col-md-4">*国家或地区：</label>
+            <select class="form-control col-md-6" name="country" >
+            <option value="China">中国</option>
+            <option value="USA">美国</option>
+            <option value="UK">英国</option>
+            <option value="Russia">俄罗斯</option>
+            <option value="France">法国</option>
+            </select>
         </div>
         <div class="form-group form-inline">
             <label class="control-label col-md-4" ID="phonetext">电话：</label>
