@@ -1,7 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,8 +30,32 @@ public class tradeserv extends HttpServlet {
 		st.getbyID(request.getParameter("stockID"));
 		request.setAttribute("stockID", st.getID());
 		request.setAttribute("stockname", st.getname());
-		request.setAttribute("now_price", st.getnow_price());
-		request.setAttribute("upsanddowns", st.getupsanddowns());
+		request.setAttribute("now_price", String.format("%.2f",st.getnow_price()));
+		request.setAttribute("upsanddowns", String.format("%.2f",st.getupsanddowns()));
+		st.getbs();
+		double[] sp=st.getsellerp();
+		double[] bp=st.getbuyerp();
+		int[] sn=st.getsellern();
+		int[] bn=st.getbuyern();
+		for(int i=0;i<5;i++) {
+			if(sp[i]!=-1) {
+			request.setAttribute("sp"+i, sp[i]);
+			request.setAttribute("sn"+i, sn[i]);
+			}
+			else {
+				request.setAttribute("sp"+i, "--");
+				request.setAttribute("sn"+i, "--");
+			}
+			if(bp[i]!=-1) {
+			request.setAttribute("bp"+i, bp[i]);
+			request.setAttribute("bn"+i, bn[i]);
+			}
+			else {
+				request.setAttribute("bp"+i, "--");
+				request.setAttribute("bn"+i, "--");
+			}
+		}
+		
 		request.getRequestDispatcher("/trading").forward(request, response);
 	}
 

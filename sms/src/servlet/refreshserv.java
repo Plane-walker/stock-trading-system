@@ -38,12 +38,13 @@ public class refreshserv extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int size=Integer.valueOf(request.getParameter("size"));
+		int page=Integer.valueOf(request.getParameter("page"));
 		stock[] st=new stock[size];
 		JSONArray jsona = new JSONArray();
 		if(request.getParameter("s_name")==null||request.getParameter("s_name").length()==0)
 		for(int i=0;i<size;i++) {
 			st[i]=new stock();
-			st[i].gettop(i+1);
+			st[i].gettop((page-1)*size+i+1);
 			if(st[i].getID()!=null) {
 			JSONObject json=new JSONObject();
 			json.put("ID", st[i].getID());

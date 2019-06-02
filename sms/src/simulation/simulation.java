@@ -20,7 +20,6 @@ public class simulation extends Thread{
 		gainsotck();
 		while(true) {
 			try {
-				updatestock();
 				sleep(24*60*60*1000);
 				updatestock();
 			} catch (InterruptedException e) {
@@ -29,7 +28,14 @@ public class simulation extends Thread{
 		}
 	}
 	void updatestock() {
-		
+		try {
+			data(9,false,"USA");
+			data(9,false,"HongKong");
+			data(9,false,"ShenZhen");
+			data(9,false,"ShangHai");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	void gainsotck() {
 		dbconnect dc=null;
@@ -49,20 +55,28 @@ public class simulation extends Thread{
 					+ " value('admin','admin','21232f297a57a5a743894a0e4a801fc3','male',3,'China')");
 			dc.add(psta);
 			}
-			data(5);
+			data(9,true,"USA");
+			data(9,true,"HongKong");
+			data(9,true,"ShenZhen");
+			data(9,true,"ShangHai");
 		} catch (SQLException e) {
 
 			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}	
 
-    public static void data(int page) throws SQLException {
+    public static void data(int page,boolean upd,String country) throws SQLException {
     	Random rd=new Random();
-		String url_str = "http://web.juhe.cn:8080/finance/stock/usaall?key=ac22996b586444fc9abe3adf89c2f80c&page=";
-    	for(int i=1;i<=page;i++) {
+		String url_str =null;
+		switch(country) {
+		case "USA":url_str = "http://web.juhe.cn:8080/finance/stock/usaall?key=ac22996b586444fc9abe3adf89c2f80c&page=";break;
+		case "HongKong":url_str = "http://web.juhe.cn:8080/finance/stock/hkall?key=ac22996b586444fc9abe3adf89c2f80c&page=";break;
+		case "ShenZhen":url_str = "http://web.juhe.cn:8080/finance/stock/szall?key=ac22996b586444fc9abe3adf89c2f80c&page=";break;
+		case "ShangHai":url_str = "http://web.juhe.cn:8080/finance/stock/shall?key=ac22996b586444fc9abe3adf89c2f80c&page=";break;
+		}
+		for(int i=1;i<=page;i++) {
     		URL url=null;
 			try {
 				url = new URL(url_str+i);
@@ -83,24 +97,43 @@ public class simulation extends Thread{
     		JSONArray jsa = json.getJSONArray("data");
     		for(int j=0;j<jsa.length();j++) {
     			JSONObject tmp = jsa.getJSONObject(j);
+    			if(upd) {
     			company_account ca=new company_account();
     			ca.setID(tmp.optString("symbol"));
     			ca.setname(tmp.optString("cname"));
-    			ca.setcountry("USA");
+    			ca.setcountry(country);
     			ca.register();
+    			}
     			stock st =new stock();
     			st.setID(tmp.optString("symbol"));
-    			st.setname(tmp.optString("cname"));
-    			st.setopen_price(tmp.optDouble("open"));
+    			switch(country) {
+    			case "USA":st.setname(tmp.optString("cname"));
     			st.setclosing_price(tmp.optDouble("preclose"));
+    			st.setnow_price(tmp.optDouble("price"));
+    			st.setupsanddowns(tmp.optDouble("chg"));break;
+    			case "HongKong":st.setname(tmp.optString("name"));
+    			st.setclosing_price(tmp.optDouble("prevclose"));
+    			st.setnow_price(tmp.optDouble("lasttrade"));
+    			st.setupsanddowns(tmp.optDouble("changepercent"));break;
+    			case "ShenZhen":st.setname(tmp.optString("name"));
+    			st.setclosing_price(tmp.optDouble("settlement"));
+    			st.setnow_price(tmp.optDouble("trade"));
+    			st.setupsanddowns(tmp.optDouble("changepercent"));break;
+    			case "ShangHai":st.setname(tmp.optString("name"));
+    			st.setclosing_price(tmp.optDouble("settlement"));
+    			st.setnow_price(tmp.optDouble("trade"));
+    			st.setupsanddowns(tmp.optDouble("changepercent"));break;
+    			}
+    			st.setopen_price(tmp.optDouble("open"));
     			st.setmax_price(tmp.optDouble("high"));
     			st.setmin_price(tmp.optDouble("low"));
     			st.setturnover(tmp.optInt("volume"));
-    			st.setnow_price(tmp.optDouble("price"));
-    			st.setupsanddowns(tmp.optDouble("chg"));
-    			st.settype("USA");
+    			
+    			
+    			st.settype(country);
     			st.setissue_circulation(rd.nextInt(400000)+20000);
     			st.setissue_price(rd.nextInt(80)+40);
+    			if(upd)
     			st.publish();
     			st.newday();
     		}

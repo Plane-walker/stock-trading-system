@@ -35,9 +35,39 @@
 
 <script>
 var s_ID;
+var page=1;
+var last=false;
+function psw(){
+	html="";
+	if(page>1)
+	html+="<button class='control-label col-md-2' onclick='switchp()'>上一页</button>";
+	   html+="<label class='control-label col-md-1'>第</label>";
+    html+="<input type='text' class='form-control col-md-1' id='paget' name='paget' value='${paget}' autocomplete='off'>";
+    html+="<button class='control-label col-md-2' onclick='switchl()'>下一页</button>";
+    html+="<button class='control-label col-md-2' onclick='jump()'>跳页</button>";
+    $("#pageswitch").html(html);
+    $("#paget").val(page);
+}
+function switchl(){
+	if(!last){
+	page++;
+	refresh();
+	psw();
+	}
+}
+function switchp(){
+	page--;
+	refresh();
+	psw();
+}
+function jump(){
+	page=$("#paget").val();
+	refresh();
+	psw();
+}
 function refresh(){
 	  var url = "refresh";
-	  var data = {"s_name":s_ID,"size":"10"};
+	  var data = {"s_name":s_ID,"size":"10","page":page};
 	  $.ajax({
 	   type :"post",
 	   dataType: "json",
@@ -46,6 +76,10 @@ function refresh(){
 	   timeout:1000,
 	   success:function(dates){
 		   var html="";
+		   if(dates.length<10)
+			   last=true;
+		   else
+			   last=false;
 		   for(var i=0;i<dates.length;i++){
 		   html+="<tr>";
 		   if(dates[i].upsanddowns<0){
@@ -93,6 +127,7 @@ function exit(){
 };
  $(function(){
 	 refresh();
+	 psw();
  	 setInterval(refresh,1000);
 })
 </script>
@@ -112,5 +147,15 @@ function exit(){
 </thead>
 <tbody id="stocktable"></tbody>
 </table>
+<div class="container">
+<div class="row row-centered">
+<div class="well col-md-6 col-centered">
+<div id="pageswitch" class="form-group form-inline">
+            <label class="control-label col-md-2">第</label>
+            <input type="text" class="form-control col-md-2" id="page" name="page" value="${page}" autocomplete="off">
+        </div>
+</div>
+</div>
+</div>
 </body>
 </html>

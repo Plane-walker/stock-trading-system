@@ -53,12 +53,13 @@ function own(){
 			html+="<th>数量</th>";
 			html+="</tr>";
 			$("#ownhead").html(html);
-			html="<tr>";
+			html="";
 		   for(var i=0;i<dates.length;i++){
+			   html+="<tr>";
 			   html+="<td>"+dates[i].sto_ID+"</td>";
 			   html+="<td>"+dates[i].number+"</td>";
+			   html+="</tr>";
 	   }
-		   html+="</tr>";
 		   $("#ownbody").html(html);
 		   }
 	   },

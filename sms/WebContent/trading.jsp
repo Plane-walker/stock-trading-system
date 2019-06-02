@@ -32,6 +32,65 @@
         </style>
 </head>
 <body>
+<script>
+function info(){
+	var html="";
+		html+="<tr>";
+		html+="<td>卖五</td>";
+		html+="<td>${sp4}</td>";
+		html+="<td>${sn4}</td>";
+		html+="</tr>";
+		html+="<tr>";
+		html+="<td>卖四</td>";
+		html+="<td>${sp3}</td>";
+		html+="<td>${sn3}</td>";
+		html+="</tr>";
+		html+="<tr>";
+		html+="<td>卖三</td>";
+		html+="<td>${sp2}</td>";
+		html+="<td>${sn2}</td>";
+		html+="</tr>";
+		html+="<tr>";
+		html+="<td>卖二</td>";
+		html+="<td>${sp1}</td>";
+		html+="<td>${sn1}</td>";
+		html+="</tr>";
+		html+="<tr>";
+		html+="<td>卖一</td>";
+		html+="<td>${sp0}</td>";
+		html+="<td>${sn0}</td>";
+		html+="</tr>";
+		html+="<tr>";
+		html+="<td>买一</td>";
+		html+="<td>${bp0}</td>";
+		html+="<td>${bn0}</td>";
+		html+="</tr>";
+		html+="<tr>";
+		html+="<td>买二</td>";
+		html+="<td>${bp1}</td>";
+		html+="<td>${bn1}</td>";
+		html+="</tr>";
+		html+="<tr>";
+		html+="<td>买三</td>";
+		html+="<td>${bp2}</td>";
+		html+="<td>${bn2}</td>";
+		html+="</tr>";
+		html+="<tr>";
+		html+="<td>买四</td>";
+		html+="<td>${bp3}</td>";
+		html+="<td>${bn3}</td>";
+		html+="</tr>";
+		html+="<tr>";
+		html+="<td>买五</td>";
+		html+="<td>${bp4}</td>";
+		html+="<td>${bn4}</td>";
+		html+="</tr>";
+	$("#tradeinfo").html(html);
+};
+$(function(){
+	info();
+});
+</script>
 <table class="table table-hover">
 <thead>
 <tr>
@@ -46,8 +105,12 @@
 <td>${stockID}</td>
 <td>${stockname}</td>
 <td>${now_price}</td>
-<td>${upsanddowns}</td>
+<td>${upsanddowns}%</td>
 </tr>
+</tbody>
+</table>
+<table class="table table-hover">
+<tbody id="tradeinfo">
 </tbody>
 </table>
 <div class="container">
@@ -62,7 +125,7 @@
 </label>
 <div class="form-group form-inline">
 <label class="control-label col-md-2">数量：</label>
-<input class="form-control col-md-6" type="text" name="number" value="${number}" autocomplete="off">
+<input class="form-control col-md-6" type="text" name="number" value="${number}" autocomplete="off">00股
 </div>
 <div class="form-group form-inline">
 <label class="control-label col-md-2">价格：</label>

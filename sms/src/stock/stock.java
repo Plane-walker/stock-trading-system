@@ -22,6 +22,10 @@ public class stock {
 	int turnover;
 	double now_price;
 	double upsanddowns;
+	double[] sellerp;
+	int[] sellern;
+	double[] buyerp;
+	int[] buyern;
 	public void gettop(int size) {
 		dbconnect dc=null;
 		PreparedStatement psta=null;
@@ -30,8 +34,8 @@ public class stock {
 			dc=new dbconnect();
 			psta=dc.getconn().prepareStatement(
 					"select ID,name,turnover,now_price,upsanddowns from stock "
-					+ " order by turnover desc limit ?");
-			psta.setInt(1, size);
+					+ " order by turnover desc limit ?,1");
+			psta.setInt(1, size-1);
 			rs=dc.query(psta);
 			genrs(rs,size);
 		} catch (Exception e) {
@@ -89,8 +93,7 @@ public class stock {
 	}
 	public void genrs(ResultSet rs,int size) throws SQLException{
 		try {
-			for(int i=0;i<size&&rs.next();i++) 
-			if(i==size-1){
+			if(rs.next()){
 				this.ID=rs.getString("ID");
 				this.name=rs.getString("name");
 				this.turnover=rs.getInt("turnover");
@@ -202,6 +205,68 @@ public class stock {
 			psta.setDouble(4, now_price);
 			psta.setDouble(5, now_price);
 			dc.add(psta);
+			psta=dc.getconn().prepareStatement(
+					"select ID from stock"
+					+ " where ID=?");
+			psta.setString(1, ID);
+			rs=dc.query(psta);
+			if(rs.next()) {
+			psta=dc.getconn().prepareStatement(
+					"update stock"
+					+ " set now_price=?, turnover=?, upsanddowns=?"
+					+ " where ID=?");
+			psta.setDouble(1, now_price);
+			psta.setInt(2, turnover);
+			psta.setDouble(3, upsanddowns);
+			psta.setString(4, ID);
+			dc.update(psta);
+			}
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public void getbs() {
+		dbconnect dc=null;
+		PreparedStatement psta=null;
+		ResultSet rs = null;
+		try{
+			dc=new dbconnect();
+			psta=dc.getconn().prepareStatement(
+					"select price,number from for_trading"
+					+ " where sto_ID=? and transcation='sell'"
+					+ "order by price asc limit 5");
+			psta.setString(1, ID);
+			rs=dc.query(psta);
+			sellerp=new double[5];
+			sellern=new int[5];
+			for(int i=0;i<5;i++) {
+			if(rs.next()) {
+				sellerp[i]=rs.getDouble("price");
+				sellern[i]=rs.getInt("number");
+			}
+			else {
+				sellerp[i]=-1;
+				sellern[i]=0;
+			}
+			}
+			psta=dc.getconn().prepareStatement(
+					"select price,number from for_trading"
+					+ " where sto_ID=? and transcation='buy'"
+					+ "order by price desc limit 5");
+			psta.setString(1, ID);
+			rs=dc.query(psta);
+			buyerp=new double[5];
+			buyern=new int[5];
+			for(int i=0;i<5;i++) {
+			if(rs.next()) {
+				buyerp[i]=rs.getDouble("price");
+				buyern[i]=rs.getInt("number");
+			}
+			else {
+				buyerp[i]=-1;
+				buyern[i]=0;
+			}
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -288,5 +353,17 @@ public class stock {
 	}
 	public void setturnover(int turnover) {
 		this.turnover=turnover;
+	}
+	public double[] getbuyerp() {
+		return buyerp;
+	}
+	public double[] getsellerp() {
+		return sellerp;
+	}
+	public int[] getbuyern() {
+		return buyern;
+	}
+	public int[] getsellern() {
+		return sellern;
 	}
 }

@@ -67,7 +67,7 @@ public class individual_account extends account{
 	}
 	public String purchase(HttpServletRequest request) {
 		String info=null;
-		double cost=Integer.valueOf(request.getParameter("number"))*Double.valueOf(request.getParameter("price"));
+		double cost=Integer.valueOf(request.getParameter("number"))*100*Double.valueOf(request.getParameter("price"));
 		dbconnect dc=null;
 		PreparedStatement psta=null;
 		ResultSet rs = null;
@@ -94,7 +94,7 @@ public class individual_account extends account{
 						"call purchase(?,?,?,?)");
 				psta.setString(1, ID);
 				psta.setString(2, request.getParameter("stockID"));
-				psta.setInt(3, Integer.valueOf(request.getParameter("number")));
+				psta.setInt(3, Integer.valueOf(request.getParameter("number"))*100);
 				psta.setDouble(4, Double.valueOf(request.getParameter("price")));
 				dc.query(psta);
 			}
@@ -105,7 +105,7 @@ public class individual_account extends account{
 	}
 	public String sell(HttpServletRequest request) {
 		String info=null;
-		int num=Integer.valueOf(request.getParameter("number"));
+		int num=Integer.valueOf(request.getParameter("number"))*100;
 		dbconnect dc=null;
 		PreparedStatement psta=null;
 		ResultSet rs = null;
@@ -132,7 +132,7 @@ public class individual_account extends account{
 						"call sell(?,?,?,?)");
 				psta.setString(1, ID);
 				psta.setString(2, request.getParameter("stockID"));
-				psta.setInt(3, Integer.valueOf(request.getParameter("number")));
+				psta.setInt(3, Integer.valueOf(request.getParameter("number"))*100);
 				psta.setDouble(4, Double.valueOf(request.getParameter("price")));
 				dc.query(psta);
 			}

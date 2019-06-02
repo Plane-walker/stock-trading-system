@@ -6,14 +6,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import account.account;
-import account.company_account;
 import account.individual_account;
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import stock.stock;
 
 /**
  * Servlet implementation class ownserv
