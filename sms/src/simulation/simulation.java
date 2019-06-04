@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.Random;
 
 import account.company_account;
+import account.individual_account;
 import database.dbconnect;
 import net.sf.json.JSONObject;
 import stock.stock;
@@ -20,9 +21,81 @@ public class simulation extends Thread{
 		gainsotck();
 		while(true) {
 			try {
-				sleep(24*60*60*1000);
-				updatestock();
+				simutrade();
+				sleep(60*1000);
 			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	void simutrade() {
+		Random rd=new Random();
+		for(int i=1;i<=100;i++) {
+			individual_account iacc=new individual_account();
+			iacc.setID(""+i);
+			dbconnect dc=null;
+			PreparedStatement psta=null;
+			ResultSet rs = null;
+			try {
+				dc=new dbconnect();
+				if(rd.nextBoolean()) {
+				psta=dc.getconn().prepareStatement(
+						"select * from own "
+						+ " where acc_ID=? limit 1 ");
+				psta.setString(1, iacc.getID());
+				rs=dc.query(psta);
+				if(rs.next()) {
+					String sto_ID=rs.getString("sto_ID");
+					int own_number=rs.getInt("number");
+					psta=dc.getconn().prepareStatement(
+							"select * from stock "
+							+ " where ID=?");
+					psta.setString(1, sto_ID);
+					rs=dc.query(psta);
+					if(rs.next()) {
+					psta=dc.getconn().prepareStatement(
+							"delete from pre_trading");
+					dc.delete(psta);
+					psta=dc.getconn().prepareStatement(
+							"call sell(?,?,?,?)");
+					psta.setString(1, iacc.getID());
+					psta.setString(2, sto_ID);
+					psta.setInt(3, own_number);
+					psta.setDouble(4, Double.valueOf(String.format("%.2f",rs.getDouble("now_price")+(rd.nextDouble()*rs.getDouble("now_price")*0.2-rs.getDouble("now_price")*0.1))));
+					dc.query(psta);
+					}
+				}
+				}
+				else {
+				psta=dc.getconn().prepareStatement(
+						"select asset from individual_account"
+						+ " where ID=?");
+				psta.setString(1, iacc.getID());
+				rs=dc.query(psta);
+				if(rs.next()) {
+					iacc.setasset(rs.getDouble("asset"));
+					int aimst=rd.nextInt(720);
+					int aimnum=(rd.nextInt(36)+5)*100;
+					psta=dc.getconn().prepareStatement(
+							"select * from stock "
+							+ " order by turnover desc limit ?, 1 ");
+					psta.setInt(1, aimst);
+					rs=dc.query(psta);
+					if(rs.next()&&rs.getDouble("now_price")*aimnum<=iacc.getasset()){
+						psta=dc.getconn().prepareStatement(
+								"delete from pre_trading");
+						dc.delete(psta);
+						psta=dc.getconn().prepareStatement(
+								"call purchase(?,?,?,?)");
+						psta.setString(1, iacc.getID());
+						psta.setString(2, rs.getString("ID"));
+						psta.setInt(3, aimnum);
+						psta.setDouble(4, Double.valueOf(String.format("%.2f",rs.getDouble("now_price")+(rd.nextDouble()*rs.getDouble("now_price")*0.2-rs.getDouble("now_price")*0.1))));
+						dc.query(psta);
+					}
+				}
+				}
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -128,11 +201,11 @@ public class simulation extends Thread{
     			st.setmax_price(tmp.optDouble("high"));
     			st.setmin_price(tmp.optDouble("low"));
     			st.setturnover(tmp.optInt("volume"));
-    			
-    			
+    			if(st.getnow_price()==0)
+    				st.setnow_price(10);
     			st.settype(country);
-    			st.setissue_circulation(rd.nextInt(400000)+20000);
-    			st.setissue_price(rd.nextInt(80)+40);
+    			st.setissue_circulation((rd.nextInt(400)+20)*1000);
+    			st.setissue_price(st.getnow_price());
     			if(upd)
     			st.publish();
     			st.newday();

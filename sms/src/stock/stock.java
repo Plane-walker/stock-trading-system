@@ -26,6 +26,8 @@ public class stock {
 	int[] sellern;
 	double[] buyerp;
 	int[] buyern;
+	String []sellname;
+	String []buyname;
 	public void gettop(int size) {
 		dbconnect dc=null;
 		PreparedStatement psta=null;
@@ -35,7 +37,7 @@ public class stock {
 			psta=dc.getconn().prepareStatement(
 					"select * from stock "
 					+ " order by turnover desc limit ?, 1 ");
-			psta.setInt(1, size);
+			psta.setInt(1, size-1);
 			rs=dc.query(psta);
 			genrs(rs);
 		} catch (Exception e) {
@@ -233,37 +235,43 @@ public class stock {
 		try{
 			dc=new dbconnect();
 			psta=dc.getconn().prepareStatement(
-					"select price,number from for_trading"
+					"select price,number,name from for_trading join individual_account on for_trading.acc_ID=individual_account.ID"
 					+ " where sto_ID=? and transcation='sell'"
 					+ "order by price asc limit 5");
 			psta.setString(1, ID);
 			rs=dc.query(psta);
 			sellerp=new double[5];
 			sellern=new int[5];
+			sellname=new String[5];
 			for(int i=0;i<5;i++) {
 			if(rs.next()) {
+				sellname[i]=rs.getString("name");
 				sellerp[i]=rs.getDouble("price");
 				sellern[i]=rs.getInt("number");
 			}
 			else {
+				sellname[i]="";
 				sellerp[i]=-1;
 				sellern[i]=0;
 			}
 			}
 			psta=dc.getconn().prepareStatement(
-					"select price,number from for_trading"
+					"select price,number,name from for_trading join individual_account on for_trading.acc_ID=individual_account.ID"
 					+ " where sto_ID=? and transcation='buy'"
 					+ "order by price desc limit 5");
 			psta.setString(1, ID);
 			rs=dc.query(psta);
 			buyerp=new double[5];
 			buyern=new int[5];
+			buyname=new String[5];
 			for(int i=0;i<5;i++) {
 			if(rs.next()) {
+				buyname[i]=rs.getString("name");
 				buyerp[i]=rs.getDouble("price");
 				buyern[i]=rs.getInt("number");
 			}
 			else {
+				buyname[i]="";
 				buyerp[i]=-1;
 				buyern[i]=0;
 			}
@@ -365,5 +373,11 @@ public class stock {
 	}
 	public int[] getsellern() {
 		return sellern;
+	}
+	public String[] getbuyname() {
+		return buyname;
+	}
+	public String[] getsellname() {
+		return sellname;
 	}
 }

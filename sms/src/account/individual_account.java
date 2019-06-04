@@ -95,7 +95,7 @@ public class individual_account extends account{
 				psta.setString(1, ID);
 				psta.setString(2, request.getParameter("stockID"));
 				psta.setInt(3, Integer.valueOf(request.getParameter("number"))*100);
-				psta.setDouble(4, Double.valueOf(request.getParameter("price")));
+				psta.setDouble(4, Double.valueOf(String.format("%.2f",Double.valueOf(request.getParameter("price")))));
 				dc.query(psta);
 			}
 		} catch (Exception e) {
@@ -133,7 +133,7 @@ public class individual_account extends account{
 				psta.setString(1, ID);
 				psta.setString(2, request.getParameter("stockID"));
 				psta.setInt(3, Integer.valueOf(request.getParameter("number"))*100);
-				psta.setDouble(4, Double.valueOf(request.getParameter("price")));
+				psta.setDouble(4, Double.valueOf(String.format("%.2f",Double.valueOf(request.getParameter("price")))));
 				dc.query(psta);
 			}
 		} catch (Exception e) {
@@ -194,8 +194,7 @@ public class individual_account extends account{
 			request.setAttribute("name", name);
 			request.setAttribute("gender", gender);
 			request.setAttribute("country", country);
-			request.setAttribute("asset", asset);
-			System.out.println(asset);
+			request.setAttribute("asset", String.format("%.2f",asset));
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -223,5 +222,8 @@ public class individual_account extends account{
 		}
 		return ja;
 		
+	}
+	public void setasset(double asset) {
+		this.asset=asset;
 	}
 }
