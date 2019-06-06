@@ -17,12 +17,12 @@ public class company_account extends account{
 		String username=request.getParameter("username");
         String country=request.getParameter("country");
 		String pwHash=getmd5(request.getParameter("password"));
-		if(ID == null || ID.trim().equals(""))
+		if(userID == null || userID.trim().equals(""))
 			error="用户ID不能为空";
-		else if (name == null || name.trim().equals("")) 
+		else if (username == null || username.trim().equals("")) 
 			error="用户名不能为空！";
 		else if (!request.getParameter("password").matches("[^\\u3400-\\u9FFF]{5,18}"))
-				error="密码必须为5-18位，且必须同时包含大小写字母和数字！";
+				error="密码必须为5-18位！";
 		else if (!request.getParameter("repassword").equals(request.getParameter("password"))) 
 				error="两次密码不一致！";
 		else {
@@ -34,7 +34,7 @@ public class company_account extends account{
 				psta=dc.getconn().prepareStatement(
 						"select ID from company_account"
 						+ " where ID=?");
-				psta.setString(1, ID);
+				psta.setString(1, userID);
 				rs=dc.query(psta);
 				if(!rs.next()) {
 				psta=dc.getconn().prepareStatement(
@@ -91,6 +91,7 @@ public class company_account extends account{
 		stock st=new stock();
 		st.inti(request, ID);
 		error=st.publish();
+		st.newday();
 		return error;
 		
 	}

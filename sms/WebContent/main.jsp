@@ -40,11 +40,11 @@ var last=false;
 function psw(){
 	html="";
 	if(page>1)
-	html+="<button class='control-label col-md-2' onclick='switchp()'>上一页</button>";
+	html+="<button class='control-label col-md-2 btn btn-info' onclick='switchp()'>上一页</button>";
 	   html+="<label class='control-label col-md-1'>第</label>";
     html+="<input type='text' class='form-control col-md-1' id='paget' name='paget' value='${paget}' autocomplete='off'>";
-    html+="<button class='control-label col-md-2' onclick='switchl()'>下一页</button>";
-    html+="<button class='control-label col-md-2' onclick='jump()'>跳页</button>";
+    html+="<button class='control-label col-md-2 btn btn-info' onclick='switchl()'>下一页</button>";
+    html+="<button class='control-label col-md-2 btn btn-info' onclick='jump()'>跳页</button>";
     $("#pageswitch").html(html);
     $("#paget").val(page);
 }
@@ -95,7 +95,7 @@ function refresh(){
 			   html+="<td><font color='red'>"+(dates[i].upsanddowns).toFixed(2)+"% ↑<font></td>";
 		   }
 		   if("<%out.print((String)session.getAttribute("acc_type"));%>"=="individual")
-		   html+="<td><form action='trade' methon='get'><input type='hidden' name='stockID' value='"+dates[i].ID+"'><input type='submit' value='交易'></input></form></td>";
+		   html+="<td><form action='trade' methon='get'><input type='hidden' name='stockID' value='"+dates[i].ID+"'><input class='btn btn-info' type='submit' value='交易'></input></form></td>";
 		   html+="</tr>";
 	   }
 		   $("#stocktable").html(html);
@@ -128,13 +128,13 @@ function exit(){
  $(function(){
 	 refresh();
 	 psw();
- 	 setInterval(refresh,1000);
+ 	 setInterval(refresh,20*1000);
 })
 </script>
 <label class="col-md-12 text-right"><a href=<%="home?ID="+(String)session.getAttribute("ID")%>><%out.print((String)session.getAttribute("name"));%></a> 你好 <a id="exit" href="javascript:void(0);" onclick="return exit()">退出登录</a></label>
 <div class="container">
 <input class="col-md-4" type="text" ID="stockID" value="${stockID}" autocomplete="off" placeholder="输入股票名称">
-<input class="col-md-1" type="submit" value="搜索" onclick="return searchID()">
+<input class="col-md-1 btn btn-info" type="submit" value="搜索" onclick="return searchID()">
 </div>
 <table class="table table-hover">
 <thead>

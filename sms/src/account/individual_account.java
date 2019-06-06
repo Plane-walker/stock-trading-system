@@ -24,7 +24,7 @@ public class individual_account extends account{
 		else if (username == null || username.trim().equals("")) 
 			error="用户名不能为空！";
 		else if (!request.getParameter("password").matches("[^\\u3400-\\u9FFF]{5,18}"))
-				error="密码必须为5-18位，且必须同时包含大小写字母和数字！";
+				error="密码必须为5-18位!";
 		else if (!request.getParameter("repassword").equals(request.getParameter("password"))) 
 				error="两次密码不一致！";
 		/*else if (email != null && !email.trim().equals("")&&!email.matches("^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$")) 
@@ -207,7 +207,7 @@ public class individual_account extends account{
 		try{
 			dc=new dbconnect();
 			psta=dc.getconn().prepareStatement(
-					"select sto_ID,number from own"
+					"select sto_ID,number,name from own join stock on own.sto_ID=stock.ID"
 					+ " where acc_ID=?");
 			psta.setString(1, ID);
 			rs=dc.query(psta);
@@ -215,6 +215,7 @@ public class individual_account extends account{
 				JSONObject json=new JSONObject();
 				json.put("sto_ID", rs.getString("sto_ID"));
 				json.put("number", rs.getString("number"));
+				json.put("name", rs.getString("name"));
 				ja.put(json);
 			}
 		}catch(Exception e) {

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ page contentType="text/html; charset=UTF-8"  %>
 <!DOCTYPE html>
 <html>
 <meta charset="UTF-8">
@@ -32,22 +33,24 @@
         </style>
 </head>
 <body>
+<% response.setContentType("text/html;charset=utf-8"); 
+request.setCharacterEncoding("utf-8"); %>
 <script>
 function comp(){
-	$("#gender").attr("type","hidden");
-	$("#phone").attr("type","hidden");
-	$("#email").attr("type","hidden");
+	$("#gender").prop('disabled', true);
+	$("#phone").prop('disabled', true);
+	$("#email").prop('disabled', true);
 }
 function indi(){
-	$("#gender").attr("type","text");
-	$("#phone").attr("type","text");
-	$("#email").attr("type","text");
+	$("#gender").removeAttr('disabled');
+	$("#phone").removeAttr('disabled');
+	$("#email").removeAttr('disabled');
 }
 </script>
 <div class="container">
 <div class="row row-centered">
 <div class="well col-md-6 col-centered">
-<h2>注册</h2>
+<h2 class="text-primary">注册</h2>
 <form action="reg" method="post">
         <label class="radio-inline col-md-5">
         <input type="radio" name="acc_type" value="individual" checked onclick="indi()">个人账户
@@ -97,7 +100,7 @@ function indi(){
             <input type="text" class="form-control col-md-6" ID="email" name="email" value="${email}" autocomplete="off">
         </div>
         <div class="form-group form-inline">
-            <div class="col-md-4"><input type="submit" value="注册"></div>
+            <div class="col-md-4"><input class="btn btn-primary" type="submit" value="注册"></div>
             <div class="col-md-4"><a href="login">登录</a></div>
             <div class="col-md-4"><font color="red">${error}</font></div>
         </div>

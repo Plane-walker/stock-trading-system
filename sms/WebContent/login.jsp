@@ -35,7 +35,7 @@
 <div class="container">
 <div class="row row-centered">
 <div class="well col-md-6 col-centered">
-<h2>登录</h2>
+<h2 class="text-primary">登录</h2>
 <form role="form" action="log" method="post">
         <label class="radio-inline col-md-4">
         <input type="radio" name="acc_type" value="individual" checked>个人账户
@@ -52,7 +52,7 @@
             <input type="password" class="form-control col-md-6" name="password" value="${password}" autocomplete="off">
         </div>
         <div class="form-group form-inline">
-            <div class="col-md-2"><input type="submit" value="登录"></div>
+            <div class="col-md-2"><input class="btn btn-primary" type="submit" value="登录"></div>
             <div class="col-md-2"><a href="register">注册</a></div>
             <div class="col-md-6"><font color="red">${error}</font></div>
             </div>

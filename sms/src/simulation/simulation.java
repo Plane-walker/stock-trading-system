@@ -19,10 +19,11 @@ public class simulation extends Thread{
 	@Override
 	public void run() {
 		gainsotck();
+		Random rdt=new Random();
 		while(true) {
 			try {
 				simutrade();
-				sleep(60*1000);
+				sleep(rdt.nextInt(30*1000)+3*1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -30,9 +31,8 @@ public class simulation extends Thread{
 	}
 	void simutrade() {
 		Random rd=new Random();
-		for(int i=1;i<=100;i++) {
 			individual_account iacc=new individual_account();
-			iacc.setID(""+i);
+			iacc.setID(""+(rd.nextInt(100)+1));
 			dbconnect dc=null;
 			PreparedStatement psta=null;
 			ResultSet rs = null;
@@ -98,7 +98,6 @@ public class simulation extends Thread{
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
 	}
 	void updatestock() {
 		try {
@@ -144,10 +143,10 @@ public class simulation extends Thread{
     	Random rd=new Random();
 		String url_str =null;
 		switch(country) {
-		case "USA":url_str = "http://web.juhe.cn:8080/finance/stock/usaall?key=ac22996b586444fc9abe3adf89c2f80c&page=";break;
-		case "HongKong":url_str = "http://web.juhe.cn:8080/finance/stock/hkall?key=ac22996b586444fc9abe3adf89c2f80c&page=";break;
-		case "ShenZhen":url_str = "http://web.juhe.cn:8080/finance/stock/szall?key=ac22996b586444fc9abe3adf89c2f80c&page=";break;
-		case "ShangHai":url_str = "http://web.juhe.cn:8080/finance/stock/shall?key=ac22996b586444fc9abe3adf89c2f80c&page=";break;
+		case "USA":url_str = "http://web.juhe.cn:8080/finance/stock/usaall?key=06f6390127aa3abcbbba25e21c9740e4&page=";break;
+		case "HongKong":url_str = "http://web.juhe.cn:8080/finance/stock/hkall?key=06f6390127aa3abcbbba25e21c9740e4&page=";break;
+		case "ShenZhen":url_str = "http://web.juhe.cn:8080/finance/stock/szall?key=06f6390127aa3abcbbba25e21c9740e4&page=";break;
+		case "ShangHai":url_str = "http://web.juhe.cn:8080/finance/stock/shall?key=06f6390127aa3abcbbba25e21c9740e4&page=";break;
 		}
 		for(int i=1;i<=page;i++) {
     		URL url=null;

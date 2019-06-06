@@ -175,6 +175,7 @@ begin
 if new.transcation="buy" then
 begin
 declare sell_price double;
+declare final_price double;
 declare sell_number double;
 declare sell_ID varchar(50);
 declare sell_date datetime;
@@ -183,6 +184,7 @@ select acc_ID,price,number,datetime into sell_ID,sell_price,sell_number,sell_dat
 where sto_ID=new.sto_ID and transcation="sell" and price<=new.price order by price desc limit 1;
 while new.number>0 and sell_price is not null
 do
+set final_price=sell_price;
 if sell_number<=new.number then
 begin
 delete from for_trading
@@ -215,10 +217,7 @@ value(sell_ID,new.sto_ID,now(),"sell",sell_price,sell_number);
 select number into own_number from own
 where acc_ID=new.acc_ID and sto_ID=new.sto_ID;
 update stock
-set upsanddowns=(sell_price-now_price)/now_price
-where ID=new.sto_ID;
-update stock
-set now_price=sell_price
+set turnover=turnover+sell_number
 where ID=new.sto_ID;
 if own_number is not null then
 begin
@@ -235,6 +234,16 @@ end if;
 select acc_ID,price,number,datetime into sell_ID,sell_price,sell_number,sell_date from for_trading
 where sto_ID=new.sto_ID and transcation="sell" and price<=new.price order by price desc limit 1;
 end while;
+if final_price is not null then
+begin
+update stock
+set upsanddowns=(final_price-now_price)/now_price
+where ID=new.sto_ID;
+update stock
+set now_price=final_price
+where ID=new.sto_ID;
+end;
+end if;
 if new.number>0 then
 begin
 update individual_account
@@ -248,14 +257,30 @@ end;
 else
 begin
 declare buy_price double;
+declare final_price double;
 declare buy_number double;
 declare buy_ID varchar(50);
 declare buy_date datetime;
 declare own_number bigint;
+select number into own_number from own
+where acc_ID=new.acc_ID and sto_ID=new.sto_ID;
+if own_number>new.number then
+begin
+update own
+set number=number-new.number
+where acc_ID=new.acc_ID and sto_ID=new.sto_ID;
+end;
+else
+begin
+delete from own
+where acc_ID=new.acc_ID and sto_ID=new.sto_ID;
+end;
+end if;
 select acc_ID,price,number,datetime into buy_ID,buy_price,buy_number,buy_date from for_trading
 where sto_ID=new.sto_ID and transcation="buy" and price>=new.price order by price desc limit 1;
 while new.number>0 and buy_price is not null
 do
+set final_price=buy_price;
 if buy_number<=new.number then
 begin
 delete from for_trading
@@ -278,23 +303,22 @@ insert into trading_record(acc_ID,sto_ID,datetime,transcation,price,number)
 value(new.acc_ID,new.sto_ID,now(),"sell",buy_price,buy_number);
 insert into trading_record(acc_ID,sto_ID,datetime,transcation,price,number)
 value(buy_ID,new.sto_ID,now(),"buy",buy_price,buy_number);
-select number into own_number from own
-where acc_ID=new.acc_ID and sto_ID=new.sto_ID;
-if own_number>buy_number then
-begin
-update own
-set number=number-buy_number
-where acc_ID=new.acc_ID and sto_ID=new.sto_ID;
-end;
-else
-begin
-delete from own
-where acc_ID=new.acc_ID and sto_ID=new.sto_ID;
-end;
-end if;
+update stock
+set turnover=turnover+buy_number
+where ID=new.sto_ID;
 select acc_ID,price,number,datetime into buy_ID,buy_price,buy_number,buy_date from for_trading
 where sto_ID=new.sto_ID and transcation="sell" and price<=new.price order by price desc limit 1;
 end while;
+if(final_price is not null) then
+begin
+update stock
+set upsanddowns=(final_price-now_price)/now_price
+where ID=new.sto_ID;
+update stock
+set now_price=final_price
+where ID=new.sto_ID;
+end;
+end if;
 if new.number>0 then
 begin
 insert into for_trading(sto_ID,acc_ID,datetime,transcation,price,number)

@@ -50,6 +50,7 @@ function own(){
 		   var html="";
 		   html+="<tr>";
 			html+="<th>股票ID</th>";
+			html+="<th>股票名称</th>";
 			html+="<th>数量</th>";
 			html+="</tr>";
 			$("#ownhead").html(html);
@@ -57,6 +58,7 @@ function own(){
 		   for(var i=0;i<dates.length;i++){
 			   html+="<tr>";
 			   html+="<td>"+dates[i].sto_ID+"</td>";
+			   html+="<td>"+dates[i].name+"</td>";
 			   html+="<td>"+dates[i].number+"</td>";
 			   html+="</tr>";
 	   }

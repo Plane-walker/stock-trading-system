@@ -24,9 +24,9 @@ public class publishserv extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		company_account acc = new company_account();
 		HttpSession session = request.getSession();
-        request.setCharacterEncoding("UTF-8");
         acc.setID((String)session.getAttribute("ID"));
 		String info=acc.publish(request);
 		if(info!=null)

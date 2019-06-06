@@ -36,7 +36,7 @@
 <div class="row row-centered">
 <div class="well col-md-6 col-centered">
 <h2>发布股票</h2>
-<form action="publish" method="post">
+<form action="publishing" method="post">
         <div class="form-group form-inline">
             <label class="control-label col-md-4">股票名称：</label>
             <input type="text" class="form-control col-md-6" name="name" value="${name}" autocomplete="off">
@@ -51,10 +51,16 @@
         </div>
         <div class="form-group form-inline">
             <label class="control-label col-md-4" >股票类型：</label>
-            <input type="text" class="form-control col-md-6" ID="type" name="type" value="${type}" autocomplete="off">
+            <select class="form-control col-md-6" name="type" >
+            <option value="USA">USA</option>
+            <option value="HongKong">HK</option>
+            <option value="ShangHai">SH</option>
+            <option value="ShenZhen">SZ</option>
+            </select>
         </div>
         <div class="form-group form-inline">
-            <div class="col-md-4"><input type="submit" value="发布"></div>
+            <div class="col-md-2"><input type="submit"  class="btn btn-primary" value="发布"></div>
+            <div class="col-md-6"><a href="main">取消发布，返回</a></div>
             <div class="col-md-4"><font color="red">${error}</font></div>
         </div>
 

@@ -9,7 +9,7 @@ public class dbconnect {
 	static String DBDRIVER="com.mysql.cj.jdbc.Driver";
 	static String DBURL="";
 	static String DBUSER="";
-	static String DBPASS="";;
+	static String DBPASS="";
 	static Connection conn=null;
 	
 	public dbconnect() {

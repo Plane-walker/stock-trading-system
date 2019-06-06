@@ -143,7 +143,7 @@ $(function(){
 </div>
 <input type="hidden" name="stockID" value="${stockID}">
 <div class="form-group form-inline">
-<input class="col-md-2" type="submit" value="提交">
+<input class="col-md-2 btn btn-warning" type="submit" value="提交">
 <div class="col-md-6"><a href="main">放弃交易，返回</a></div>
 </div>
 </form>

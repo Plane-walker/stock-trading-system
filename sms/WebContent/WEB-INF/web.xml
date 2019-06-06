@@ -35,6 +35,10 @@
          <url-pattern>/trading.jsp</url-pattern>
          <url-pattern>/main</url-pattern>
          <url-pattern>/main.jsp</url-pattern>
+         <url-pattern>/publish.jsp</url-pattern>
+         <url-pattern>/publish</url-pattern>
+         <url-pattern>/homing.jsp</url-pattern>
+         <url-pattern>/homing</url-pattern>
      </filter-mapping>
     <filter-mapping>
         <filter-name>UrlRewriteFilter</filter-name>
@@ -109,7 +113,7 @@
   </servlet-mapping>
   <servlet-mapping>
   <servlet-name>publishServlet</servlet-name>
-    <url-pattern>/publish</url-pattern>
+    <url-pattern>/publishing</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   <servlet-name>exitServlet</servlet-name>

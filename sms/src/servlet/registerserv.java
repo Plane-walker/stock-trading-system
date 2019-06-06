@@ -38,6 +38,7 @@ public class registerserv extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		account acc;
 		if(request.getParameter("acc_type").equals("individual"))
 			acc=new individual_account();
@@ -45,13 +46,12 @@ public class registerserv extends HttpServlet {
 			acc=new company_account();
         String info=acc.register(request);
         if(info!=null) {
-        request.setCharacterEncoding("UTF-8");
         request.setAttribute("error", info);
         request.setAttribute("userID", request.getParameter("userID"));
         request.setAttribute("username", request.getParameter("username"));
         request.setAttribute("gender", request.getParameter("gender"));
         request.setAttribute("country", request.getParameter("country"));
-        request.getRequestDispatcher("register").forward(request, response);
+        request.getRequestDispatcher("register.jsp").forward(request, response);
         }
         else {
         	HttpSession session = request.getSession();

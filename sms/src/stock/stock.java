@@ -67,7 +67,7 @@ public class stock {
 		try {
 			dc=new dbconnect();
 			psta=dc.getconn().prepareStatement(
-					"select ID,name,open_price,max_price,min_price,turnover,now_price,upsanddowns from stock natural join daily_info "
+					"select * from stock"
 					+ " where LOCATE(?, name)>0",ResultSet.TYPE_SCROLL_INSENSITIVE);
 			psta.setString(1, name);
 			rs=dc.query(psta);
@@ -82,9 +82,6 @@ public class stock {
 			if(rs.next()){
 				this.ID=rs.getString("ID");
 				this.name=rs.getString("name");
-				this.open_price=rs.getDouble("open_price");
-				this.max_price=rs.getDouble("max_price");
-				this.min_price=rs.getDouble("min_price");
 				this.turnover=rs.getInt("turnover");
 				this.now_price=rs.getDouble("now_price");
 				this.upsanddowns=rs.getDouble("upsanddowns");
@@ -163,7 +160,6 @@ public class stock {
 			psta.setDouble(7, turnover);
 			psta.setDouble(8, upsanddowns);
 			dc.add(psta);
-			}
 			psta=dc.getconn().prepareStatement(
 					"select sto_ID from for_trading"
 					+ " where sto_ID=? and acc_ID='admin'");
@@ -177,6 +173,7 @@ public class stock {
 			psta.setDouble(2, issue_price);
 			psta.setInt(3, issue_circulation);
 			dc.add(psta);
+			}
 			}
 			else {
 				error="请勿重复发布股票！";
